@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class AuthActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
+    private var prueba:String? =""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
@@ -41,7 +43,7 @@ class AuthActivity : AppCompatActivity() {
                 id: Long
             ) {
                 //TODO("Not yet implemented")
-                pruebatextView.text = position.toString()
+                prueba = id.toString()
                 var pruebando:String = position.toString()
             }
 
@@ -60,7 +62,7 @@ class AuthActivity : AppCompatActivity() {
                         passwordEditText.text.toString()).addOnCompleteListener {
                         if (it.isSuccessful){
                             db.collection("users").document(emailEditText.text.toString())
-                                .set(hashMapOf("nivel" to pruebatextView.text.toString() ))
+                                .set(hashMapOf("nivel" to prueba.toString() ))
                         }
                     }
             }else{

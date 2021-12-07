@@ -11,6 +11,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
     }
 ////////////////inicializa el menu escritor y lector
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -21,11 +23,10 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
             R.id.menu_escritor -> startActivity(Intent(this,LoginActivity::class.java))
-            R.id.menu_lector -> startActivity(Intent(this,MainActivity::class.java))
+            R.id.menu_lector -> startActivity(Intent(this,CreateBook::class.java))
         }
         return super.onOptionsItemSelected(item)
-
-
     }
+    
 
 }
