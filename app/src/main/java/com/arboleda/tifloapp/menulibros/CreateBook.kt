@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.arboleda.tifloapp.R
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_create_book.*
@@ -47,6 +48,7 @@ class CreateBook : AppCompatActivity() {
             progressDialog.setMessage("Creando Libro")
             progressDialog.setCanceledOnTouchOutside(false)
             var idlibro = System.currentTimeMillis().toString()
+
             if (edittextnombrelibro.text.toString().isEmpty()){
                 Toast.makeText(this,"Nombre del libro es requerido", Toast.LENGTH_SHORT).show()
             }else if (imageUri == null){
@@ -76,10 +78,11 @@ class CreateBook : AppCompatActivity() {
 
 
             } } }
+
     fun subirimagenylibro(id:String){
         progressDialog.show()
-        val  storageReference = FirebaseStorage.getInstance().getReference("imagenes/imagen_$id")
-
+        val  storageReference = FirebaseStorage.getInstance().getReference("imagenes/$id/imagen_$id")
+/*
         storageReference.putFile(imageUri!!).addOnSuccessListener { taskSnapshot ->
             val uriTask = taskSnapshot.storage.downloadUrl
             while (!uriTask.isSuccessful);
@@ -106,8 +109,35 @@ class CreateBook : AppCompatActivity() {
 
             }
         }
+        */
 
         ////////////////
+        storageReference.putFile(imageUri!!).addOnSuccessListener { taskSnapshot ->
+            val uriTask = taskSnapshot.storage.downloadUrl
+            while (!uriTask.isSuccessful);
+            val downloadUri = uriTask.result
+            if (uriTask.isSuccessful){
+                libroname = edittextnombrelibro.text.toString()
+                var librodescripcion =  edittextdescripcionlibro.text.toString()
+                val dbReference = FirebaseDatabase.getInstance().getReference("libros")
+                dbReference.child(id).setValue(hashMapOf(
+                                "id" to "$id",
+                                "name" to "$libroname",
+                                "info" to "$librodescripcion",
+                                "img" to "$downloadUri",
+                                ))
+                        .addOnSuccessListener {taskSnapshot ->
+                            progressDialog.dismiss()
+                            Toast.makeText(this,"Libro Creado",Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {e ->
+                            progressDialog.dismiss()
+                            Toast.makeText(this,"${e.message}",Toast.LENGTH_SHORT).show()
+
+                        }
+
+            }
+        }
 
 
 

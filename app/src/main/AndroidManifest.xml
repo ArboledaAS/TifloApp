@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TifloApp">
-        <activity android:name=".menulibros.EditBook"></activity>
+        <activity android:name=".menulibros.FilesAddActivity"></activity>
+        <activity android:name=".menulibros.DeleteBook" />
+        <activity android:name=".view.NewActivity" />
+        <activity android:name=".menulibros.EditBook" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".AuthActivity" />
-        <activity android:name=".menus.AuthActivity" />
         <activity android:name=".menus.MasterMenu" />
         <activity android:name=".menulibros.CreateBook" />
         <activity android:name=".MainActivity">
