@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menus.MasterMenu
@@ -53,6 +54,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+    fun forgotPassword(view: View){
+        startActivity(Intent(this,ForgotPassActivity::class.java))
+    }
+
     private fun mostraralerta(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")

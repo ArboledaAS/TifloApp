@@ -81,6 +81,8 @@ class FilesAddActivity : AppCompatActivity() {
 
     private var name = ""
     private var libro = ""
+    private var descripcion = ""
+
     private fun validateData() {
         //paso 1: validar datos
         Log.d(TAG,"validateData: Validando datos")
@@ -88,16 +90,17 @@ class FilesAddActivity : AppCompatActivity() {
         //obtener datos
         name = binding.titleEt.text.toString().trim()
         libro = binding.categoryTv.text.toString().trim()
+        descripcion = binding.descriptionEt.text.toString().trim()
 
         //Validar datos
-        if (title.isEmpty()){
+        if (name.isEmpty()){
             Toast.makeText(this,"Ingrese titulo...",Toast.LENGTH_SHORT).show()
         }
         else if (libro.isEmpty()){
             Toast.makeText(this,"Seleccione Libro...",Toast.LENGTH_SHORT).show()
         }
         else if (fileUri == null){
-            Toast.makeText(this,"Porfavor elija un video...",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Porfavor elija un archivo...",Toast.LENGTH_SHORT).show()
         }
         else{
             uploadFiletoStorage()
@@ -115,7 +118,7 @@ class FilesAddActivity : AppCompatActivity() {
 
         val timestamp = System.currentTimeMillis()
 
-        val filePathAndName = "Videos/$timestamp"
+        val filePathAndName = "Archivos/$timestamp"
 
         val storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)
         storageReference.putFile(fileUri!!)
@@ -144,11 +147,12 @@ class FilesAddActivity : AppCompatActivity() {
         //setup data upload
         val hashMap:HashMap<String, Any> = HashMap()
         hashMap["id"] = "$timestamp"
-        hashMap["name"] = "$title"
+        hashMap["name"] = "$name"
         hashMap["librosid"] = "$selectBookId"
+        hashMap["descripcion"] = "$descripcion"
         hashMap["url"] = "$uploadFileUrl"
 
-        val ref = FirebaseDatabase.getInstance().getReference("Videos")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
         ref.child("$timestamp")
                 .setValue(hashMap)
                 .addOnSuccessListener {

@@ -3,13 +3,16 @@
     package="com.arboleda.tifloapp">
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TifloApp">
-        <activity android:name=".menulibros.FilesAddActivity"></activity>
+        <activity android:name=".ForgotPassActivity"></activity>
+        <activity android:name=".menulibros.FileListAdminActivity"></activity>
+        <activity android:name=".menulibros.FilesAddActivity" />
         <activity android:name=".menulibros.DeleteBook" />
         <activity android:name=".view.NewActivity" />
         <activity android:name=".menulibros.EditBook" />

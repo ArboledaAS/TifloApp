@@ -2,15 +2,19 @@ package com.arboleda.tifloapp.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.databinding.RowDeletebookBinding
+import com.arboleda.tifloapp.menulibros.FileListAdminActivity
 import com.arboleda.tifloapp.menulibros.FilterBook
 import com.arboleda.tifloapp.model.ModelDeleteBook
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_master_menu.view.*
 
 class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook>, Filterable{
 
@@ -41,9 +45,13 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
         val model = categoryArrayList[position]
         val id = model.id
         val name = model.name
+        val img = model.img
 
         //establecer datos
         holder.librosTV.text = name
+
+
+
 
         //manejar click eliminar libro
         holder.deleteBtn.setOnClickListener {
@@ -58,6 +66,14 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
                     .setNegativeButton("Cancelar"){a, d->
                         a.dismiss()
                     }.show()
+        }
+
+        //handle click, start pdf list admin activity, also pas pdf id, title
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, FileListAdminActivity::class.java)
+            intent.putExtra("bookId", id)
+            intent.putExtra("bookname", name)
+            context.startActivity(intent)
         }
 
     }
@@ -88,6 +104,7 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
         //vista de la interfaz de usuario de init
         var librosTV:TextView = binding.librosTv
         var deleteBtn:ImageButton = binding.deleteBtn
+        
     }
 
     override fun getFilter(): Filter {

@@ -4,7 +4,7 @@ class ModelDeleteBook {
     //variables, que deben coincidir con firebase
     var id:String = ""
     var name:String = ""
-    var img:String = ""
+    var img:String? = ""
     var info:String = ""
 
 
