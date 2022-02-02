@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray03"
-    tools:context=".MainActivity">
+    tools:context=".view.FinalActivity">
 
     <TextView
         android:id="@+id/editTextSpeech"
@@ -18,40 +18,53 @@
         android:hint="Reconocimiento"
         android:padding="10dp"
         />
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerLibros"
+    <Space
+        android:id="@+id/eee"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_list"
-        android:layout_below="@id/editTextSpeech"
-        android:layout_above="@id/bottomLl"
-        android:layout_margin="5dp"
-         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="150dp"
+        android:layout_below="@id/editTextSpeech"/>
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eee"
+            android:orientation="horizontal"
+            android:layout_above="@id/bottomLl">
+
+            <VideoView
+                android:id="@+id/Reproductor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/bottomLl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+
+
         <Button
             android:id="@+id/ReconocerBottom"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:minHeight="80dp"
             android:text="Reconocimiento"
             android:textAllCaps="false"
             android:textColor="@color/white"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

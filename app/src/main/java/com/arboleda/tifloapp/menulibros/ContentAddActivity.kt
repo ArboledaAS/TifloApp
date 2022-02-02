@@ -1,8 +1,7 @@
+
 package com.arboleda.tifloapp.menulibros
 
 import android.app.AlertDialog
-import android.app.Application
-import android.app.Instrumentation
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -13,9 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import com.arboleda.tifloapp.R
-import com.arboleda.tifloapp.databinding.ActivityFilesAddBinding
-import com.arboleda.tifloapp.model.ModelDeleteBook
+import com.arboleda.tifloapp.databinding.ActivityContentAddBinding
 import com.arboleda.tifloapp.model.ModelUniversal
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -24,11 +21,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_files_add.*
 
-class FilesAddActivity : AppCompatActivity() {
-    //setup view binding
-    private lateinit var binding: ActivityFilesAddBinding
+class ContentAddActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityContentAddBinding
 
     //firebase
     private lateinit var firebaseAuth: FirebaseAuth
@@ -41,17 +37,16 @@ class FilesAddActivity : AppCompatActivity() {
 
     //uri de archivo elegido
     private var fileUri: Uri? = null
-    private lateinit var iiddbook:String
 
     //TAG
     private val TAG = "FILE_ADD_TAG"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFilesAddBinding.inflate(layoutInflater)
+        binding = ActivityContentAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_files_add)
-
+        //setContentView(R.layout.activity_content_add)
         firebaseAuth = FirebaseAuth.getInstance()
         loadFileBook()
 
@@ -60,16 +55,11 @@ class FilesAddActivity : AppCompatActivity() {
         progressDialog.setTitle("Espera Profavor")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        //
-        binding.categoryTv.setOnClickListener {
+        binding.categoryTv1.setOnClickListener {
             filePickDialog()
         }
-/*
-        binding.submitBtn2.setOnClickListener {
-            filePickIntent()
-        }*/
 
-        binding.submitBtn.setOnClickListener {
+        binding.submitBtn1.setOnClickListener {
             //paso 1: validar datos
             //paso 2: sube el archivo al almacenamiento de firebase
             //paso 3: obtenga la URL del archivo cargado
@@ -79,41 +69,39 @@ class FilesAddActivity : AppCompatActivity() {
 
         }
 
+        binding.submitBtn2.setOnClickListener {
+            filePickIntent()
+        }
+
     }
 
-    private var name = ""
-    private var libro = ""
-    private var pclave = ""
 
+
+    private var pclave = ""
+    private var poesia = ""
     private fun validateData() {
         //paso 1: validar datos
-        Log.d(TAG,"validateData: Validando datos")
+        Log.d(TAG, "validateData: Validando datos")
 
         //obtener datos
-        name = binding.titleEt.text.toString().trim()
-        libro = binding.categoryTv.text.toString().trim()
-        pclave = binding.descriptionEt.text.toString().trim()
+        pclave = binding.titleEt1.text.toString().trim()
+        poesia = binding.categoryTv1.text.toString().trim()
 
         //Validar datos
-        if (name.isEmpty()){
-            Toast.makeText(this,"Ingrese titulo...",Toast.LENGTH_SHORT).show()
+        if (pclave.isEmpty()) {
+            Toast.makeText(this, "Seleccione Poesia para asociar...", Toast.LENGTH_SHORT).show()
         }
-        else if (libro.isEmpty()){
-            Toast.makeText(this,"Seleccione Libro...",Toast.LENGTH_SHORT).show()
-        }
-        else if (pclave.isEmpty()){
-            Toast.makeText(this,"Porfavor ingrese una palabra clave para identificar la poesia",Toast.LENGTH_SHORT).show()
-        }
-        /*
-        else if (fileUri == null){
+        else if (poesia.isEmpty()) {
+            Toast.makeText(
+                this, "Porfavor ingrese una palabra clave para identificar el archivo de la poesia",Toast.LENGTH_SHORT).show()
+        }else if(fileUri == null){
             Toast.makeText(this,"Porfavor elija un archivo...",Toast.LENGTH_SHORT).show()
-        }*/
-        else{
-            uploadFileInfoToDb(iiddbook)
         }
-
+        else{
+            uploadFiletoStorage()
+        }
     }
-/*
+
     private fun uploadFiletoStorage() {
         //paso 2: sube el archivo al almacenamiento de firebase
         Log.d(TAG,"uploadFiletoStorage: Subiendo al Almacenamiento...")
@@ -128,26 +116,24 @@ class FilesAddActivity : AppCompatActivity() {
 
         val storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)
         storageReference.putFile(fileUri!!)
-                .addOnSuccessListener {taskSnapshot ->
-                    Log.d(TAG,"uploadFiletoStorage: Subiendo Archivo")
+            .addOnSuccessListener {taskSnapshot ->
+                Log.d(TAG,"uploadFiletoStorage: Subiendo Archivo")
 
-                    //paso 3: obtenga la URL del archivo cargado
-                    val uriTask: Task<Uri> = taskSnapshot.storage.downloadUrl
-                    while (!uriTask.isSuccessful);
-                    val uploadFileUrl = "${uriTask.result}"
+                //paso 3: obtenga la URL del archivo cargado
+                val uriTask: Task<Uri> = taskSnapshot.storage.downloadUrl
+                while (!uriTask.isSuccessful);
+                val uploadFileUrl = "${uriTask.result}"
 
-                    uploadFileInfoToDb(uploadFileUrl, timestamp)
-                }
-                .addOnFailureListener{e ->
-                    Log.d(TAG,"uploadFiletoStorage: Fallo la subida del archvio: ${e.message}")
-                    progressDialog.dismiss()
-                    Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
-                }
-    }*/
+                uploadFileInfoToDb(uploadFileUrl, timestamp)
+            }
+            .addOnFailureListener{e ->
+                Log.d(TAG,"uploadFiletoStorage: Fallo la subida del archvio: ${e.message}")
+                progressDialog.dismiss()
+                Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
+            }
+    }
 
-    private fun uploadFileInfoToDb(iidbook:String) {
-        val timestamp = System.currentTimeMillis()
-
+    private fun uploadFileInfoToDb(uploadFileUrl: String, timestamp:Long) {
         //paso 4: sube la información del archivo a firebase db
         Log.d(TAG,"uploadFileInfoToDb: Subiendo a db")
         progressDialog.setMessage("Subiendo informacion del archivo....")
@@ -155,36 +141,35 @@ class FilesAddActivity : AppCompatActivity() {
         //setup data upload
         val hashMap:HashMap<String, Any> = HashMap()
         hashMap["id"] = "$timestamp"
-        hashMap["name"] = "$name"
-        hashMap["librosid"] = "$selectBookId"
         hashMap["pclave"] = "$pclave"
+        hashMap["poesiaid"] = "$selectBookId"
+        hashMap["url"] = "$uploadFileUrl"
 
-
-        val ref = FirebaseDatabase.getInstance().getReference("poesia")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
         ref.child("$timestamp")
-                .setValue(hashMap)
-                .addOnSuccessListener {
-                    Log.d(TAG, "uploadFileInfoToDb: Subiendo a db")
-                    progressDialog.dismiss()
-                    Toast.makeText(this,"Subiendo archivo",Toast.LENGTH_SHORT).show()
-                    fileUri = null
+            .setValue(hashMap)
+            .addOnSuccessListener {
+                Log.d(TAG, "uploadFileInfoToDb: Subiendo a db")
+                progressDialog.dismiss()
+                Toast.makeText(this,"El archivo se subio exitosamente",Toast.LENGTH_SHORT).show()
+                fileUri = null
 
-                }
-                .addOnFailureListener { e ->
-                    Log.d(TAG,"uploadFileInfoToDb: Fallo la subida del archvio: ${e.message}")
-                    progressDialog.dismiss()
-                    Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
-                }
+            }
+            .addOnFailureListener { e ->
+                Log.d(TAG,"uploadFileInfoToDb: Fallo la subida del archvio: ${e.message}")
+                progressDialog.dismiss()
+                Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
+            }
 
     }
 
     private fun loadFileBook() {
-        Log.d(TAG, "Cargando Archivos del Libro")
+        Log.d(TAG, "Cargando Archivos de Poesias")
 
         categoryArrayList = ArrayList()
 
-        val ref = FirebaseDatabase.getInstance().getReference("libros")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+        val ref = FirebaseDatabase.getInstance().getReference("poesia")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //Limpiar lista despues de agregar datos
                 categoryArrayList.clear()
@@ -202,10 +187,11 @@ class FilesAddActivity : AppCompatActivity() {
             }
         })
     }
+
     private var selectBookId = ""
     private var selectBookTitle = ""
+    private fun filePickDialog() {
 
-    private  fun filePickDialog(){
         Log.d(TAG, "filePickDialog: mostrando el cuadro de diálogo del selector de categorías de pdf ")
 
         val categoriesArray = arrayOfNulls<String>(categoryArrayList.size)
@@ -215,29 +201,30 @@ class FilesAddActivity : AppCompatActivity() {
         //alerta de dialogo
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Elegir Libro")
-                .setItems(categoriesArray){dialog, which ->
-            //obtener un elemento en el que se hace click
-            //manejar el elemento clic
-            selectBookId  = categoryArrayList[which].id
-            selectBookTitle = categoryArrayList[which].name
+            .setItems(categoriesArray){dialog, which ->
+                //obtener un elemento en el que se hace click
+                //manejar el elemento clic
+                selectBookId  = categoryArrayList[which].id
+                selectBookTitle = categoryArrayList[which].name
 
-            iiddbook = selectBookId
+                //iiddbook = selectBookId
 
-            //Establecer Libros en el textview
-            binding.categoryTv.text = selectBookTitle
+                //Establecer Libros en el textview
+                binding.categoryTv1.text = selectBookTitle
 
-            Log.d(TAG,"filePickDialog: Seleccionar libro ID: $selectBookId")
-            Log.d(TAG,"filePickDialog: Seleccionar libro ID: $selectBookTitle")
+                Log.d(TAG,"filePickDialog: Seleccionar libro ID: $selectBookId")
+                Log.d(TAG,"filePickDialog: Seleccionar libro Nombre: $selectBookTitle")
 
 
-        }
-        .show()
+            }
+            .show()
     }
-    private  fun filePickIntent(){
+
+    private fun filePickIntent() {
         Log.d(TAG, "filePickIntent: Stark file pick intent")
 
         val intent = Intent()
-        intent.type = "video/*"
+        intent.type = "file/*"
         intent.action = Intent.ACTION_GET_CONTENT
         fileActivityResultlauncher.launch(intent)
     }
@@ -254,7 +241,6 @@ class FilesAddActivity : AppCompatActivity() {
                 }
             }
     )
-
 
 
 }

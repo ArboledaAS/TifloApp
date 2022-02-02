@@ -38,6 +38,7 @@
 
         <!--Descripcion-->
 
+        <!--
         <TextView
             android:id="@+id/descriptionTv"
             style="@style/TextAppearance.AppCompat.Body2"
@@ -48,7 +49,7 @@
             android:ellipsize="end"
 
             android:maxLines="4"
-            android:text="Descripcion"/>
+            android:text="Descripcion"/> -->
 
         <TextView
             android:id="@+id/categoryTv"
@@ -59,7 +60,7 @@
             android:layout_alignParentEnd="true"
             android:maxLines="1"
             android:textSize="15sp"
-            android:text="Libro"/>
+            android:text="Poesia"/>
 
         <ImageButton
             android:id="@+id/moreBtn"
@@ -72,8 +73,5 @@
 
 
     </RelativeLayout>
-
-
-
 
 </androidx.cardview.widget.CardView>

@@ -19,9 +19,29 @@ class MyApplication:Application() {
     }
 
     companion object{
-        fun loadCategory(categoryId: String, categoryTv: TextView){
-
+        fun loadCategory1(categoryId: String, categoryTv: TextView){
+            //usando libros id de firebase
             val ref = FirebaseDatabase.getInstance().getReference("libros")
+            ref.child(categoryId)
+                    .addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            //get libro
+                            val nombre = "${snapshot.child("name").value}"
+
+                            //set libro
+                            categoryTv.text = nombre
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
+        }
+        //////////////////////////////////////////////////////////////
+        fun loadCategory2(categoryId: String, categoryTv: TextView){
+
+            val ref = FirebaseDatabase.getInstance().getReference("poesia")
             ref.child(categoryId)
                     .addListenerForSingleValueEvent(object: ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
@@ -38,6 +58,7 @@ class MyApplication:Application() {
                     })
 
         }
+        //////////////////////////////////////////////////////////////
 
         fun deleteFile(context: Context, fileId: String, fileTitle:String, fileUrl: String){
             val TAG = "ELIMINAR_ARCHIVO_TAG"
@@ -74,6 +95,30 @@ class MyApplication:Application() {
                         Log.d(TAG, "deleteFile: Fallo la eliminacion del archivo ${e.message}")
                         Toast.makeText(context,"Fallo la eliminacion del archivo ${e.message}", Toast.LENGTH_SHORT).show()
                     }
+        }
+
+        fun oneDeleteFile(context: Context, fileId: String, fileTitle:String){
+            val TAG = "ELIMINAR_ARCHIVO_TAG"
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setTitle("Espere Porfavor")
+            progressDialog.setMessage("Eliminando $fileTitle....")
+            progressDialog.setCanceledOnTouchOutside(false)
+            progressDialog.show()
+
+            val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+            ref.child(fileId)
+                .removeValue()
+                .addOnSuccessListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(context, "Eliminancion satisfactoria...",Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "deleteFile: Eliminado de la Base de datos...")
+                }
+                .addOnFailureListener { e->
+                    progressDialog.dismiss()
+                    Log.d(TAG, "deleteFile: Fallo la eliminacion del archivo ${e.message}")
+                    Toast.makeText(context,"Fallo la eliminacion del archivo ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+
         }
 
     }

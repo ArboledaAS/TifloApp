@@ -49,7 +49,7 @@ class FileListAdminActivity : AppCompatActivity() {
         binding.subTitleTv.text = bookname
 
         loadFileList()
-
+/*
         //BUSCADOR
         binding.searchET.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -69,14 +69,16 @@ class FileListAdminActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
-
+*/
     }
 
     private fun loadFileList() {
         //
         fileArrayList = ArrayList()
+        /*val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        ref.orderByChild("librosid").equalTo(bookId)*/
 
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        val ref = FirebaseDatabase.getInstance().getReference("poesia")
         ref.orderByChild("librosid").equalTo(bookId)
                 .addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {

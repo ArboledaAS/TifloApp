@@ -2,6 +2,7 @@ package com.arboleda.tifloapp.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.arboleda.tifloapp.MyApplication
 import com.arboleda.tifloapp.databinding.RowFileAdminBinding
 import com.arboleda.tifloapp.menulibros.FilterFileAdmin
 import com.arboleda.tifloapp.model.ModelFile
+import com.arboleda.tifloapp.menulibros.SecondListAdminActivity
 import java.util.ArrayList
 
 class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, Filterable{
@@ -63,12 +65,19 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
         holder.descriptionTv.text = descrption
 
         //ID DEL LIBRO
-        MyApplication.loadCategory(librosid, holder.categoryTv)
+        MyApplication.loadCategory1(librosid, holder.categoryTv)
 
         holder.moreBtn.setOnClickListener {
             moreOptionDialog(model, holder)
 
 
+        }
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, SecondListAdminActivity::class.java)
+            intent.putExtra("poesiaid", fileId)
+            intent.putExtra("poesianame", title)
+            context.startActivity(intent)
         }
 
     }

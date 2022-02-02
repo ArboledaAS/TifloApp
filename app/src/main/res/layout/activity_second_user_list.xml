@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray03"
-    tools:context=".MainActivity">
+    tools:context=".view.SecondUserListActivity">
 
     <TextView
         android:id="@+id/editTextSpeech"
@@ -22,36 +22,45 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerLibros"
+        android:id="@+id/recycleruser2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_list"
+        tools:listitem="@layout/row_user2_list"
         android:layout_below="@id/editTextSpeech"
         android:layout_above="@id/bottomLl"
         android:layout_margin="5dp"
-         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <LinearLayout
         android:id="@+id/bottomLl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp">
+<!--
+        <TextView
+            android:id="@+id/mostrartextview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
+-->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+
 
         <Button
             android:id="@+id/ReconocerBottom"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:minHeight="80dp"
             android:text="Reconocimiento"
             android:textAllCaps="false"
             android:textColor="@color/white"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

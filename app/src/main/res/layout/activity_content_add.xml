@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".menulibros.FilesAddActivity">
-
+    tools:context=".menulibros.ContentAddActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/titleTil"
+        android:id="@+id/titleTil1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -17,11 +16,11 @@
         app:hintEnabled="false">
 
         <EditText
-            android:id="@+id/titleEt"
+            android:id="@+id/titleEt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/gray03"
-            android:hint="Nombre del arvhivo"
+            android:hint="Palabra clave del archivo"
             android:drawablePadding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"/>
@@ -34,28 +33,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_below="@id/titleTil"
+        android:layout_below="@id/titleTil1"
         android:layout_marginTop="5dp"
         app:hintEnabled="false">
 
-        <EditText
-            android:id="@+id/descriptionEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/gray03"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:hint="Palabra clave"
-            android:inputType="textImeMultiLine|textCapSentences"
-            android:textSize="16sp"
-            android:drawablePadding="10dp"
-            />
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/categoryTv"
+        android:id="@+id/categoryTv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/descriptionTil"
@@ -66,32 +53,30 @@
         android:drawableEnd="@drawable/ic_down_1"
         android:drawablePadding="10dp"
         android:padding="10dp"
-        android:hint="Elegir libro"
+        android:hint="Elegir Poesia"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp"/>
 
     <Button
-        android:id="@+id/submitBtn"
+        android:id="@+id/submitBtn1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/categoryTv"
+        android:layout_below="@id/categoryTv1"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="15dp"
-        android:text="Crear poesia"
+        android:text="Subir Archivo"
         android:textColor="@color/white"/>
-    <!--
     <Button
         android:id="@+id/submitBtn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/submitBtn"
+        android:layout_below="@id/submitBtn1"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="15dp"
         android:text="Elegir Archivo"
         android:textColor="@color/white"/>
--->
 
 </RelativeLayout>

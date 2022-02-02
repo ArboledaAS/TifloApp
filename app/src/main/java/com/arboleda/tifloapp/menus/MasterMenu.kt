@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.arboleda.tifloapp.AuthActivity
 import com.arboleda.tifloapp.R
+import com.arboleda.tifloapp.menulibros.ContentAddActivity
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.arboleda.tifloapp.menulibros.FilesAddActivity
@@ -45,7 +46,8 @@ class MasterMenu : AppCompatActivity() {
         ///////SPINNER SELECCION
         val spinner = findViewById<Spinner>(R.id.spnElementos)
 
-        val lista = listOf("Agregar Usuario","Crear libro","Eliminar Libro","Agregar contenido libro")
+        val lista = listOf("Agregar Usuario","Crear libro","Agregar contenido al libro",
+                "Agregar archivos a la poesia","Eliminar Libro" )
 
         val adaptador = ArrayAdapter(this,android.R.layout.simple_spinner_item,lista)
         spinner.adapter = adaptador
@@ -83,11 +85,15 @@ class MasterMenu : AppCompatActivity() {
             if (PosicionSpinner == 1){
                 startActivity(Intent(this, CreateBook::class.java))
             }
+
             if (PosicionSpinner == 2){
-                startActivity(Intent(this, DeleteBook::class.java))
+                startActivity(Intent(this, FilesAddActivity::class.java))
             }
             if (PosicionSpinner == 3){
-                startActivity(Intent(this, FilesAddActivity::class.java))
+                startActivity(Intent(this, ContentAddActivity::class.java))
+            }
+            if (PosicionSpinner == 4){
+                startActivity(Intent(this, DeleteBook::class.java))
             }
 
         }
@@ -97,15 +103,18 @@ class MasterMenu : AppCompatActivity() {
     private fun actualizartextview(posicion:Int) {
         if(posicion == 0){
 
+            editTextOpciones.text = "En este apartado puede agregar nuevos escritores o " +
+                    "nuevos ususarios administradores los cuales administraran a los escritores  "
         }
         if(posicion == 1){
-
+            editTextOpciones.text = "En este apartado puede crear un nuevo libro a la base de datos"
         }
         if(posicion == 2){
-
+            editTextOpciones.text = ""
         }
         if(posicion == 3){
-
+            editTextOpciones.text = "En este apartador puede agregar nuevas poesias a los libros anteriormente creados" +
+                    "paraque los usuarios puedan disfrutar de este"
         }
 
     }

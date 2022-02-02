@@ -36,19 +36,20 @@
             android:maxLines="1"
             android:text="Titulo del archivo"/>
 
-        <!--Descripcion-->
+
+        <!--PALABRACLAVE-->
+
 
         <TextView
-            android:id="@+id/descriptionTv"
+            android:id="@+id/palabraclaveTv"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/titleTv"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-
             android:maxLines="4"
-            android:text="Descripcion"/>
+            android:text="Palabra clave"/>
 
         <TextView
             android:id="@+id/categoryTv"
@@ -59,8 +60,8 @@
             android:layout_alignParentEnd="true"
             android:maxLines="1"
             android:textSize="15sp"
-            android:text="Libro"/>
-
+            android:text="Poesia"/>
+<!--
         <ImageButton
             android:id="@+id/moreBtn"
             android:layout_width="wrap_content"
@@ -68,12 +69,9 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_baseline_menu_black"
             android:padding="5dp"
-            />
+            />-->
 
 
     </RelativeLayout>
-
-
-
 
 </androidx.cardview.widget.CardView>

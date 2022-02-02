@@ -32,11 +32,11 @@ class FilterBook :Filter{
            // el valor de búsqueda no es nulo o vacío
 
             //cambiar a mayúsculas o minúsculas para evitar la distinción entre mayúsculas y minúsculas
-            constraint = constraint.toString().toUpperCase()
+            constraint = constraint.toString().capitalize()
             val  filteredModel:ArrayList<ModelDeleteBook> = ArrayList()
             for (i in 0 until filterList.size){
                 //validar
-                if (filterList[i].name.toUpperCase().contains(constraint)){
+                if (filterList[i].name.capitalize().contains(constraint)){
                     // agregar la lista de filtro
                     filteredModel.add(filterList[i])
                 }

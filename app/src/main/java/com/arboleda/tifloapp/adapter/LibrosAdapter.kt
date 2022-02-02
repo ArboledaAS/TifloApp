@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.databinding.ItemListBinding
 import com.arboleda.tifloapp.model.LibroData
+import com.arboleda.tifloapp.view.FirstUserListActivity
 import com.arboleda.tifloapp.view.NewActivity
 
 class LibrosAdapter(
@@ -25,9 +26,20 @@ class LibrosAdapter(
     }
 
     override fun onBindViewHolder(holder: LibroViewHolder, position: Int) {
+        val newList = libroList[position]
         holder.v.isLibros = libroList[position]
         holder.v.root.setOnClickListener {
-            val mIntent = Intent(c,NewActivity::class.java)
+            //val img = newList.img
+            val name = newList.name
+            val info = newList.info
+            val id = newList.id
+
+            val mIntent = Intent(c,FirstUserListActivity::class.java)
+            mIntent.putExtra("bookId", id)
+            //mIntent.putExtra("img", img)
+            mIntent.putExtra("bookname", name)
+            mIntent.putExtra("bookinfo", info)
+            //mIntent.putExtra("info", info)
             c.startActivity(mIntent)
         }
     }
