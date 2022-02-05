@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {status ->
             if (status != TextToSpeech.ERROR){
                 textToSpeech.language = Locale.getDefault()
+                textToSpeech.setSpeechRate(0.7F)
+                textToSpeech.setPitch(1.0F)
             }
         })
 
@@ -116,9 +118,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun tomaDeOrdenes(decision: String){
-        if (decision == "Libros"){
+        if (decision == "Libros" || decision == "Libro" || decision == "Lista" || decision == "Listas" ){
             verificarBase2()
-        }else{
+        }
+        else if (decision == "Ayuda"){
+            textToSpeech.speak("Recuerda que hay comandos predeterminados para cada pantalla.\n" +
+                    "También hay comandos universales que te sirven en cualquier pantalla los cuales son.\n" +
+                    "la palabra. comandos. Para saber los comandos de una pantalla en específico.\n" +
+                    "\n" +
+                    " lista. para saber el nombre y palabra clave.\n" +
+                    "\n" +
+                    "Inicio. que te llevara a la pantalla principal.\n" +
+                    "\n" +
+                    "Atrás. para volver a la pantalla anterior si lo requieres.\n" +
+                    "\n" +
+                    "Y por último ayuda. que es la que mencionaste para saber de estos comandos.\n" +
+                    "Espero que disfrutes de la aplicación \n ",TextToSpeech.QUEUE_FLUSH,null)
+        }
+        else if (decision == "Comandos" || decision == "Comando"){
+            textToSpeech.speak("Estas en la pantalla principal. libros." +
+                    "puedes decir Lista. o Libros. para saber que libros hay disponibles y su palabra clave ",TextToSpeech.QUEUE_FLUSH,null)
+        }
+        else if (decision == "Inicio" || decision == "Atrás"){
+            textToSpeech.speak("Ya te encuentras en la pantalla principal de la aplicación ",
+                    TextToSpeech.QUEUE_FLUSH,null)
+        }
+        else{
             verificarBase(decision)
         }
 
@@ -169,6 +194,8 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("bookinfo", "${book?.info}")
                     startActivity(intent)
 
+                }else{
+                    textToSpeech.speak("El comando o libro que acabas de decir no existe",TextToSpeech.QUEUE_FLUSH,null)
                 }
 
             }

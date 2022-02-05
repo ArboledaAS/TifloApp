@@ -33,7 +33,7 @@ class ForgotPassActivity : AppCompatActivity() {
                 .addOnCompleteListener(this){
                         task->if (task.isSuccessful){
                     progressBar.visibility= View.VISIBLE
-                    startActivity(Intent(this,LoginActivity::class.java))
+                    startActivity(Intent(this,MainActivity::class.java))
                 }else{
                     Toast.makeText(this,"Error al enviar el email", Toast.LENGTH_SHORT).show()
                 }

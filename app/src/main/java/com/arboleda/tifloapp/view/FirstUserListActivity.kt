@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.widget.Toast
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.adapter.AdapterFileAdmin
 import com.arboleda.tifloapp.databinding.ActivityFirstUserListBinding
@@ -56,12 +57,18 @@ class FirstUserListActivity : AppCompatActivity() {
         textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {status ->
             if (status != TextToSpeech.ERROR){
                 textToSpeech.language = Locale.getDefault()
+                textToSpeech.setSpeechRate(0.7F)
+                textToSpeech.setPitch(1.0F)
             }
         })
 
         loadFileList()
 
         binding.ReconocerBottom.setOnClickListener {
+            if (textToSpeech.isSpeaking){
+                textToSpeech.stop()
+            }
+
             entradaDeVoz()
         }
 
@@ -97,10 +104,37 @@ class FirstUserListActivity : AppCompatActivity() {
     }
 
     fun tomaDeOrdenes(decision: String){
-        if (decision == "Poesía"|| decision == "Poesías"){
+        if (decision == "Poesía"|| decision == "Poesías" || decision == "Lista" || decision == "Listas"){
             verificarBase2()
-        }else{
-            verificarBase(decision)
+        }
+        else if (decision == "Descripción"){
+            textToSpeech.speak("$bookinfo",TextToSpeech.QUEUE_FLUSH,null)
+        }
+        else if (decision == "Ayuda"){
+            textToSpeech.speak("Recuerda que hay comandos predeterminados para cada pantalla.\n" +
+                    "También hay comandos universales que te sirven en cualquier pantalla los cuales son.\n" +
+                    "la palabra. comandos. Para saber los comandos de una pantalla en específico.\n" +
+                    "\n" +
+                    " lista. para saber el nombre y palabra clave.\n" +
+                    "\n" +
+                    "Inicio. que te llevara a la pantalla principal.\n" +
+                    "\n" +
+                    "Atrás. para volver a la pantalla anterior si lo requieres.\n" +
+                    "\n" +
+                    "Y por último ayuda. que es la que mencionaste para saber de estos comandos.\n" +
+                    "Espero que disfrutes de la aplicación \n ",TextToSpeech.QUEUE_FLUSH,null)
+        }
+        else if (decision == "Inicio" || decision == "Atrás"){
+            finish()
+        }else if (decision == "Comandos" || decision == "Comando"){
+            textToSpeech.speak("Estas en la pantalla Poesia. Dentro del libro. $bookname" +
+                    "puedes decir Lista. o Poesias. para saber las poesias que hay disponibles y sus palabra clave." +
+                    "Tambien puedes decir la palabra. Descripción. para saber la Descripción del libro $bookname  ",TextToSpeech.QUEUE_FLUSH,null)
+        }
+
+        else{
+            //verificarBase(decision)
+            verificarBase3(decision)
         }
 
     }
@@ -111,13 +145,16 @@ class FirstUserListActivity : AppCompatActivity() {
         ref.orderByChild("librosid").equalTo(bookId)
                 .addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        var array = arrayListOf<String>()
-                        println("asodASDUHGASHGD $snapshot")
+
+                        //println("asodASDUHGASHGD $snapshot")
+                        if (snapshot.exists())
                         for (ds in snapshot.children){
 
                             val model = ds.getValue(ModelUniversal::class.java)
 
+
                             if (model != null && model.pclave == identificar) {
+
                                 /*
                                 array.add(model.id)
                                 array.add(model.librosid)
@@ -131,10 +168,11 @@ class FirstUserListActivity : AppCompatActivity() {
                                 startActivity(intent)
                             }
                         }
+
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
+                        Toast.makeText(this@FirstUserListActivity,error.message, Toast.LENGTH_SHORT).show()
                     }
 
                 })
@@ -153,20 +191,38 @@ class FirstUserListActivity : AppCompatActivity() {
 
                             if (model != null) {
                                 array.add(model.name)
-                                array.add("palabra clave ${model.pclave}")
+                                array.add("palabra clave. ${model.pclave}.")
                             }
                         }
                         println(array)
-                        textToSpeech.speak("Las poesias disponibles son: $array",TextToSpeech.QUEUE_FLUSH,null)
+                        textToSpeech.speak("Las poesias disponibles son. ${array}.",TextToSpeech.QUEUE_FLUSH,null)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
+                        Toast.makeText(this@FirstUserListActivity,error.message, Toast.LENGTH_SHORT).show()
                     }
 
                 })
     }
 
+    //VERIFICA QUE EXISTA LA PALABRA Y EN CASO TAL MANDARLE LA PALABRA A LA FUNCION verificarBase()
+    fun  verificarBase3(identificar:String) {
+        val ref = FirebaseDatabase.getInstance().getReference("poesia")
+        ref.orderByChild("pclave").equalTo(identificar)
+                .addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()){
+                            verificarBase(identificar)
+                        }else{
+                            textToSpeech.speak("El comando o Poesia que acabas de decir no existe",TextToSpeech.QUEUE_FLUSH,null)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@FirstUserListActivity,error.message, Toast.LENGTH_SHORT).show()
+                    }
+                })
+    }
 
     private fun loadFileList() {
         fileArrayList = ArrayList()
@@ -181,6 +237,7 @@ class FirstUserListActivity : AppCompatActivity() {
                     for (ds in snapshot.children){
 
                         val model = ds.getValue(ModelUniversal::class.java)
+
 
                         if (model != null) {
                             fileArrayList.add(model)
