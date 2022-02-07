@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".menulibros.CreateBook">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:id="@+id/linearcontenedor"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -17,25 +19,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+<!--
         <EditText
             android:id="@+id/edittextnombrelibro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Ingrese nombre del libro"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName" />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese nombre del libro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittextnombrelibro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
-        <EditText
-            android:id="@+id/edittextdescripcionlibro"
+
+        <com.google.android.material.textfield.TextInputLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="ingrese descripcion del libro"
-            android:inputType="textPersonName" />
+            android:hint="Ingrese descripcion del libro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittextdescripcionlibro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese palabra clave del libro"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittextpalabraclave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Space
             android:layout_width="match_parent"
@@ -51,20 +99,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Crear Libro" />
+                android:text="Crear Libro"
+                app:cornerRadius="30dp"/>
 
         </LinearLayout>
 
+
+
         <Button
-            android:id="@+id/selececionarfotoButton"
+            android:id="@+id/reconocimientoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seleccionar Foto" />
+            android:text="Reconocimiento"
+            app:cornerRadius="30dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/selececionarfotoButton"
+            android:layout_below="@id/selececionarfotoButton"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="40dp"
+            app:cardElevation="50dp"
+            app:cardCornerRadius="50dp">
+
 
         <ImageView
             android:id="@+id/imageViewBook"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:srcCompat="@drawable/ic_launcher_foreground" />
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</LinearLayout>

@@ -86,6 +86,11 @@ class MainActivity : AppCompatActivity() {
             entradaDeVoz()
         }
 
+        binding.bottomactualizar.setOnClickListener {
+            libroList.clear()
+            getLibrosData()
+        }
+
 
     }
 
@@ -143,6 +148,10 @@ class MainActivity : AppCompatActivity() {
             textToSpeech.speak("Ya te encuentras en la pantalla principal de la aplicación ",
                     TextToSpeech.QUEUE_FLUSH,null)
         }
+        else if (decision == "Actualiazar"){
+            libroList.clear()
+            getLibrosData()
+        }
         else{
             verificarBase(decision)
         }
@@ -195,7 +204,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
 
                 }else{
-                    textToSpeech.speak("El comando o libro que acabas de decir no existe",TextToSpeech.QUEUE_FLUSH,null)
+                    textToSpeech.speak("El comando o libro que acabas de decir no existe.",TextToSpeech.QUEUE_FLUSH,null)
                 }
 
             }

@@ -13,8 +13,7 @@ import com.arboleda.tifloapp.view.FirstUserListActivity
 import com.arboleda.tifloapp.view.NewActivity
 
 class LibrosAdapter(
-    var c:Context,var  libroList:ArrayList<LibroData>
-):RecyclerView.Adapter<LibrosAdapter.LibroViewHolder>()
+    var c:Context,var  libroList:ArrayList<LibroData>):RecyclerView.Adapter<LibrosAdapter.LibroViewHolder>()
 {
     inner class LibroViewHolder(var v:ItemListBinding):RecyclerView.ViewHolder(v.root){}
 
@@ -36,7 +35,7 @@ class LibrosAdapter(
 
             val mIntent = Intent(c,FirstUserListActivity::class.java)
             mIntent.putExtra("bookId", id)
-            //mIntent.putExtra("img", img)
+            //mIntent.putExtra("imgdellibro", img)
             mIntent.putExtra("bookname", name)
             mIntent.putExtra("bookinfo", info)
             //mIntent.putExtra("info", info)

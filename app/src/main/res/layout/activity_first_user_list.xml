@@ -46,10 +46,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="70dp"
+            android:minHeight="90dp"
             android:text="Reconocimiento"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            app:cornerRadius="30dp"
+            />
 
     </LinearLayout>
 

@@ -7,17 +7,40 @@
     android:background="@color/gray03"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/editTextSpeech"
+    <LinearLayout
+        android:id="@+id/lineareditTextSpeech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/white"
-        android:hint="Reconocimiento"
-        android:padding="10dp"
-        />
+        android:layout_marginEnd="10dp">
+        <TextView
+            android:id="@+id/editTextSpeech"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginVertical="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            android:hint="Reconocimiento"
+            android:padding="10dp"
+            app:cornerRadius="30dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bottomactualizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabCustomSize="50dp"
+            android:backgroundTint="@color/purple_500"
+            android:src="@drawable/update_24"
+            android:tint="@color/white"
+            />
+
+
+    </LinearLayout>
+
 
 
 
@@ -26,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_list"
-        android:layout_below="@id/editTextSpeech"
+        android:layout_below="@id/lineareditTextSpeech"
         android:layout_above="@id/bottomLl"
         android:layout_margin="5dp"
          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
@@ -46,10 +69,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="80dp"
+            android:minHeight="90dp"
             android:text="Reconocimiento"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            app:cornerRadius="30dp"
+            />
 
     </LinearLayout>
 

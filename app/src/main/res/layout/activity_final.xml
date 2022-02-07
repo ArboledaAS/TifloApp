@@ -60,10 +60,11 @@
             android:id="@+id/ReconocerBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="80dp"
+            android:minHeight="90dp"
             android:text="Reconocimiento"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            app:cornerRadius="30dp"/>
 
     </LinearLayout>
 
