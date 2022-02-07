@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".menulibros.ContentAddActivity">
+    tools:context=".menulibros.PoesiaAddActivity">
+
 
     <LinearLayout
+        android:id="@+id/linearcontenedor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -19,17 +21,38 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/titleTx"
+            android:id="@+id/titleTil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Palabra clave del archivo"
+            android:hint="Nombre de la poesia"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/titleEt1"
+                android:id="@+id/titleEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionTil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Palabra clave"
+            android:layout_below="@id/titleTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -38,14 +61,14 @@
             android:layout_height="16dp" />
 
         <TextView
-            android:id="@+id/categoryTv1"
+            android:id="@+id/categoryTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/descriptionTil"
             android:background="@color/gray03"
             android:drawableEnd="@drawable/ic_down_1"
-            android:padding="10dp"
-            android:hint="Elegir Poesia"
+            android:padding="15dp"
+            android:hint="Elegir libro"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="16sp"/>
@@ -55,29 +78,19 @@
             android:layout_height="16dp" />
 
         <Button
-            android:id="@+id/submitBtn1"
+            android:id="@+id/submitBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/categoryTv1"
-            android:text="Subir Archivo"
+            android:layout_below="@id/categoryTv"
+            android:text="Crear poesia"
             android:textColor="@color/white"
             app:cornerRadius="30dp"/>
 
         <Button
-            android:id="@+id/submitBtn2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/submitBtn1"
-            android:text="Elegir Archivo"
-            android:textColor="@color/white"
-            app:cornerRadius="30dp"/>
-        <Button
             android:id="@+id/reconocimientoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/submitBtn2"
-            android:text="RECONOCIMIENTO"
-            android:textColor="@color/white"
+            android:text="Reconocimiento"
             app:cornerRadius="30dp"/>
 
 

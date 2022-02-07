@@ -19,14 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--
-        <EditText
-            android:id="@+id/edittextnombrelibro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Ingrese nombre del libro"
-            android:inputType="textPersonName" />-->
 
         <com.google.android.material.textfield.TextInputLayout
 

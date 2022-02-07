@@ -63,6 +63,7 @@ class AuthActivity : AppCompatActivity() {
                         if (it.isSuccessful){
                             db.collection("users").document(emailEditText.text.toString())
                                 .set(hashMapOf("nivel" to prueba.toString() ))
+
                         }
                     }
             }else{

@@ -21,7 +21,7 @@
         <activity android:name=".menulibros.ContentAddActivity" />
         <activity android:name=".ForgotPassActivity" />
         <activity android:name=".menulibros.FileListAdminActivity" />
-        <activity android:name=".menulibros.FilesAddActivity" />
+        <activity android:name=".menulibros.PoesiaAddActivity" />
         <activity android:name=".menulibros.DeleteBook" />
         <activity android:name=".view.NewActivity" /> <!-- <activity android:name=".menulibros.EditBook" /> -->
         <activity android:name=".LoginActivity" />

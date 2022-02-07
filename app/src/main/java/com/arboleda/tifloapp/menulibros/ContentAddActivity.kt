@@ -1,12 +1,14 @@
 
 package com.arboleda.tifloapp.menulibros
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -21,6 +23,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ContentAddActivity : AppCompatActivity() {
 
@@ -37,6 +42,8 @@ class ContentAddActivity : AppCompatActivity() {
 
     //uri de archivo elegido
     private var fileUri: Uri? = null
+
+    private val RQ_ESCUCHA = 102
 
     //TAG
     private val TAG = "FILE_ADD_TAG"
@@ -73,6 +80,10 @@ class ContentAddActivity : AppCompatActivity() {
             filePickIntent()
         }
 
+        binding.reconocimientoButton.setOnClickListener {
+            entradaDeVoz()
+        }
+
     }
 
 
@@ -84,21 +95,30 @@ class ContentAddActivity : AppCompatActivity() {
         Log.d(TAG, "validateData: Validando datos")
 
         //obtener datos
-        pclave = binding.titleEt1.text.toString().trim()
+        pclave = binding.titleEt1.text.toString().trim().capitalize()
         poesia = binding.categoryTv1.text.toString().trim()
 
         //Validar datos
         if (pclave.isEmpty()) {
-            Toast.makeText(this, "Seleccione Poesia para asociar...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Porfavor ingrese una palabra clave para identificar " +
+                    "el archivo de la poesia ", Toast.LENGTH_LONG).show()
         }
         else if (poesia.isEmpty()) {
             Toast.makeText(
-                this, "Porfavor ingrese una palabra clave para identificar el archivo de la poesia",Toast.LENGTH_SHORT).show()
+                this, "Seleccione Poesia para asociar...",Toast.LENGTH_LONG).show()
         }else if(fileUri == null){
-            Toast.makeText(this,"Porfavor elija un archivo...",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Porfavor elija un archivo...",Toast.LENGTH_LONG).show()
+        }else if (pclave == "Libros" || pclave == "Libro" || pclave == "Lista" || pclave == "Listas"
+                || pclave == "Ayuda" || pclave == "Comandos" || pclave == "Comando"
+                || pclave == "Inicio" || pclave == "Atrás" || pclave == "Actualiazar"
+                || pclave == "Inicio" || pclave == "Inicio" || pclave == "Inicio" ||
+                pclave == "Reproducir"|| pclave == "Play" || pclave == "Reproduce" ||
+                pclave == "Repetir" || pclave == "Reiniciar"){
+
         }
         else{
-            uploadFiletoStorage()
+            verificarBase(pclave)
+
         }
     }
 
@@ -151,7 +171,8 @@ class ContentAddActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d(TAG, "uploadFileInfoToDb: Subiendo a db")
                 progressDialog.dismiss()
-                Toast.makeText(this,"El archivo se subio exitosamente",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"El archivo se subio exitosamente",Toast.LENGTH_LONG).show()
+                binding.titleEt1.setText(null)
                 fileUri = null
 
             }
@@ -241,6 +262,58 @@ class ContentAddActivity : AppCompatActivity() {
                 }
             }
     )
+
+
+
+
+    fun verificarBase(identificar:String){
+
+        val ref = FirebaseDatabase.getInstance().getReference().child("Archivos")
+        val buscar = ref.orderByChild("pclave").equalTo(identificar)
+        buscar.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.exists()) {
+                    Toast.makeText(this@ContentAddActivity,"Esta palabra clave ya está asignada a un Archivo",Toast.LENGTH_LONG).show()
+                }else{
+                    uploadFiletoStorage()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@ContentAddActivity,error.message,Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RQ_ESCUCHA && resultCode == Activity.RESULT_OK){
+            val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+
+            val deSpeechToText = result?.get(0).toString().capitalize()
+            binding.titleEt1.setText(deSpeechToText)
+
+
+        }
+    }
+
+    fun entradaDeVoz(){
+        /*
+        if(!SpeechRecognizer.isRecognitionAvailable(this)){
+            Toast.makeText(this, "El reconocimiento no esta habilitado", Toast.LENGTH_SHORT).show()
+        }else{
+
+        }*/
+        val i = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Habla Porfavor")
+        startActivityForResult(i, RQ_ESCUCHA)
+    }
+
 
 
 }

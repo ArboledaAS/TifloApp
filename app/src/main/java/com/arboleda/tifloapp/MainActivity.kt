@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
             textToSpeech.speak("Ya te encuentras en la pantalla principal de la aplicación ",
                     TextToSpeech.QUEUE_FLUSH,null)
         }
-        else if (decision == "Actualiazar"){
+        else if (decision == "Actualizar"){
             libroList.clear()
             getLibrosData()
         }

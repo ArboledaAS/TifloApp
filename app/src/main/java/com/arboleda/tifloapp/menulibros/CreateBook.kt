@@ -54,10 +54,13 @@ class CreateBook : AppCompatActivity() {
             }
             else if (imageUri == null){
                 Toast.makeText(this,"Elige una imagen porfavor", Toast.LENGTH_LONG).show()
-            }else if (palabraclave == "Libros" || palabraclave == "Libro" || palabraclave == "Lista" || palabraclave == "Listas"
-                    || palabraclave == "Ayuda" || palabraclave == "Comandos" || palabraclave == "Comando"
-                    || palabraclave == "Inicio" || palabraclave == "Atrás" || palabraclave == "Actualiazar"
-                    || palabraclave == "Inicio" || palabraclave == "Inicio" || palabraclave == "Inicio"){
+            }else if (palabraclave == "Libros" || palabraclave == "Libro" || palabraclave == "Lista" ||
+                    palabraclave == "Listas" || palabraclave == "Ayuda" || palabraclave == "Comandos"
+                    || palabraclave == "Comando" || palabraclave == "Inicio" || palabraclave == "Atrás" ||
+                    palabraclave == "Actualiazar" || palabraclave == "Inicio" || palabraclave == "Inicio"
+                    || palabraclave == "Inicio" || palabraclave == "Reproducir"|| palabraclave == "Play"
+                    || palabraclave == "Reproduce" || palabraclave == "Repetir" ||
+                    palabraclave == "Reiniciar"){
 
                 Toast.makeText(this,"Esta palabra esta reservada para el Sistema",Toast.LENGTH_LONG).show()
             }

@@ -3,18 +3,12 @@ package com.arboleda.tifloapp.menus
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import com.arboleda.tifloapp.AuthActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.menulibros.ContentAddActivity
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
-import com.arboleda.tifloapp.menulibros.FilesAddActivity
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.arboleda.tifloapp.menulibros.PoesiaAddActivity
 import kotlinx.android.synthetic.main.activity_master_menu.*
 
 class MasterMenu : AppCompatActivity() {
@@ -92,7 +86,7 @@ class MasterMenu : AppCompatActivity() {
         }
 
         agregarPoesiaCarview.setOnClickListener {
-            startActivity(Intent(this, FilesAddActivity::class.java))
+            startActivity(Intent(this, PoesiaAddActivity::class.java))
         }
 
         agregarArchivosCarview.setOnClickListener {
