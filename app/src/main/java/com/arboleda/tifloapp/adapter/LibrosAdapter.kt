@@ -28,14 +28,14 @@ class LibrosAdapter(
         val newList = libroList[position]
         holder.v.isLibros = libroList[position]
         holder.v.root.setOnClickListener {
-            //val img = newList.img
+            val img = newList.img
             val name = newList.name
             val info = newList.info
             val id = newList.id
 
             val mIntent = Intent(c,FirstUserListActivity::class.java)
             mIntent.putExtra("bookId", id)
-            //mIntent.putExtra("imgdellibro", img)
+            mIntent.putExtra("imgdellibro", img)
             mIntent.putExtra("bookname", name)
             mIntent.putExtra("bookinfo", info)
             //mIntent.putExtra("info", info)

@@ -2,6 +2,7 @@
 package com.arboleda.tifloapp.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.arboleda.tifloapp.menulibros.FileListAdminActivity
 import com.arboleda.tifloapp.model.ModelFile
 import com.arboleda.tifloapp.model.ModelUniversal
 import com.arboleda.tifloapp.view.adapterview.AdapterFirstUserList
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,6 +25,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
+import android.content.Context
+import kotlinx.android.synthetic.main.activity_first_user_list.*
+import kotlinx.android.synthetic.main.activity_main.editTextSpeech
 
 class FirstUserListActivity : AppCompatActivity() {
 
@@ -32,6 +37,7 @@ class FirstUserListActivity : AppCompatActivity() {
         const val TAG = "FILE_LIST_ADMIN_TAG"
     }
 
+    private  var bookimg = ""
     private  var bookId = ""
     private var bookname = ""
     private var bookinfo = ""
@@ -50,6 +56,7 @@ class FirstUserListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val intent = intent
+        bookimg = intent.getStringExtra("imgdellibro")!!
         bookId = intent.getStringExtra("bookId")!!
         bookname = intent.getStringExtra("bookname")!!
         bookinfo = intent.getStringExtra("bookinfo")!!
@@ -72,7 +79,23 @@ class FirstUserListActivity : AppCompatActivity() {
             entradaDeVoz()
         }
 
+        binding.carviewpantalla.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("$bookname")
+            builder.setMessage("${bookinfo}")
+            builder.setPositiveButton("Cerrar",null)
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
+        Glide.with(this).load("$bookimg").into(libroImg2)
+        binding.libroName2.setText("$bookname")
+        binding.libroInfo2.setText("$bookinfo")
+
+
+
     }
+
 
 
 

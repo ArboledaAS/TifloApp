@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity=""
     android:background="@color/gray03"
     tools:context=".view.FirstUserListActivity">
 
@@ -19,6 +20,71 @@
         android:padding="10dp"
         />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/carviewpantalla"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:cardCornerRadius="20dp"
+        android:layout_below="@+id/editTextSpeech"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="80dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="10dp">
+                    <ImageView
+                        android:id="@+id/libroImg2"
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/libroName2"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:textStyle="bold|normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/libroInfo2"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textStyle="bold|normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/row_user_list"
-        android:layout_below="@id/editTextSpeech"
+        android:layout_below="@id/carviewpantalla"
         android:layout_above="@id/bottomLl"
         android:layout_margin="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
