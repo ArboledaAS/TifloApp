@@ -105,14 +105,14 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
     fun eliminarPoesia(model: ModelFile, holder: AdapterFileAdmin.HolderFileAdmin){
         var id = model.id
 
-        val ref = FirebaseDatabase.getInstance().getReference("libros")
+        val ref = FirebaseDatabase.getInstance().getReference("poesia")
         ref.child(id)
             .removeValue()
             .addOnSuccessListener {
-                Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Poesia eliminada", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"No se pudo eliminar la poesia de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
 

@@ -1,6 +1,7 @@
 package com.arboleda.tifloapp
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,12 +25,20 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
+    private lateinit var progressDialog: ProgressDialog
+
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_login)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("Espere Porfavor")
+        progressDialog.setCanceledOnTouchOutside(false)
+
 
         binding.buttomregresar.setOnClickListener {
             finish()
@@ -51,6 +60,9 @@ class LoginActivity : AppCompatActivity() {
 
 
     fun verificarLogin(){
+        progressDialog.setMessage("Iniciando sesión")
+        progressDialog.show()
+
         FirebaseAuth.getInstance()
             .signInWithEmailAndPassword(accederTextEmail.text.toString().trim(),
                 accederTextPassword.text.toString().trim()).addOnCompleteListener{
@@ -63,10 +75,12 @@ class LoginActivity : AppCompatActivity() {
                                 var contenedor = snapshot.child("nivel").value
 
                                 if (contenedor == "0"){
+                                    progressDialog.dismiss()
                                     startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
                                     finish()
                                 }
                                 if (contenedor == "1"){
+                                    progressDialog.dismiss()
                                     startActivity(Intent(this@LoginActivity,SimpleMenuActivity::class.java))
                                     finish()
                                 }
@@ -74,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         override fun onCancelled(error: DatabaseError) {
+                            progressDialog.dismiss()
                             Toast.makeText(this@LoginActivity, "No se pudo realizar la accion" +
                                     "debido a que: ${error.message}", Toast.LENGTH_LONG).show()
                         }

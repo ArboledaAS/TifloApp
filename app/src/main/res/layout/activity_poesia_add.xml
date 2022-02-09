@@ -59,6 +59,7 @@
                 android:id="@+id/titleEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/text_snippet_24"
                 />
 
 
@@ -79,7 +80,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descriptionEt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/text_key_24"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

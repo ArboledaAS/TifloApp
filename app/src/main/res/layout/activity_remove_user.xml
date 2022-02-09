@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RemoveUserActivity">
+    tools:context=".remove.RemoveUserActivity"
+    android:background="@color/gray03">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,5 +33,13 @@
         android:textStyle="bold"
         android:textSize="30sp"
         android:layout_marginTop="12dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyvlerremoveuser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_Menu"
+        tools:listitem="@layout/row_remove_user_admin"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </RelativeLayout>

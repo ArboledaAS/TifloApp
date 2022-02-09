@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     fun verificarBase(identificar:String){
 
         val ref = FirebaseDatabase.getInstance().getReference().child("libros")
-        val buscar = ref.orderByChild("name").equalTo(identificar)
+        val buscar = ref.orderByChild("pclave").equalTo(identificar)
         buscar.addListenerForSingleValueEvent(object :ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity() {
                 for (recorrido in snapshot.children){
                     val model = recorrido.getValue<ModelUniversal>()
                     array.add(model?.name.toString())
-                    /*array.add(model!!.name)
-                    array.add("palabra clave: ${model.info}")*/
+                    /*array.add(model!!.name)*/
+                    array.add("palabra clave.: ${model?.pclave}")
                 }
                 println(array)
                 textToSpeech.speak("los libros disponibles son: $array",TextToSpeech.QUEUE_FLUSH,null)
@@ -273,7 +273,8 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
             R.id.menu_escritor -> startActivity(Intent(this,LoginActivity::class.java))
-            R.id.menu_lector -> startActivity(Intent(this,MasterMenu::class.java))
+            R.id.menu_lector -> {startActivity(Intent(this,MainActivity::class.java))
+            finish()}
         }
         return super.onOptionsItemSelected(item)
     }

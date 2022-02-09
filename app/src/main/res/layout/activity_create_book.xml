@@ -58,6 +58,7 @@
                 android:id="@+id/edittextnombrelibro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/text_book_24"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -79,6 +80,7 @@
                 android:id="@+id/edittextdescripcionlibro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/text_description_24"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -99,6 +101,8 @@
                 android:id="@+id/edittextpalabraclave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/text_key_24"
+
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
