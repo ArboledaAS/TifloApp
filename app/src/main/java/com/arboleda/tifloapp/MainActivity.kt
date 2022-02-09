@@ -201,6 +201,7 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("bookId", "${book?.id}")
                     intent.putExtra("bookname", "${book?.name}")
                     intent.putExtra("bookinfo", "${book?.info}")
+                    intent.putExtra("imgdellibro", "${book?.img}")
                     startActivity(intent)
 
                 }else{

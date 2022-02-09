@@ -84,6 +84,10 @@ class ContentAddActivity : AppCompatActivity() {
             entradaDeVoz()
         }
 
+        binding.buttomregresar.setOnClickListener {
+            finish()
+        }
+
     }
 
 

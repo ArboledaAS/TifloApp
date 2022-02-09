@@ -86,6 +86,10 @@ class PoesiaAddActivity : AppCompatActivity() {
             entradaDeVoz()
         }
 
+        binding.buttomregresar.setOnClickListener {
+            finish()
+        }
+
 
     }
 

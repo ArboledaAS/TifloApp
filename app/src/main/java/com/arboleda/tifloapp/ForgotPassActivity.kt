@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_forgot_pass.*
 
 class ForgotPassActivity : AppCompatActivity() {
 
@@ -23,6 +24,11 @@ class ForgotPassActivity : AppCompatActivity() {
         txtEmail=findViewById(R.id.txtEmail)
         auth=FirebaseAuth.getInstance()
         progressBar=findViewById(R.id.progressBar)
+
+
+        buttomregresar.setOnClickListener {
+            finish()
+        }
     }
 
     fun send(view: View){

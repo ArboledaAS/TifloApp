@@ -37,6 +37,10 @@ class CreateBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_book)
 
+        buttomregresar.setOnClickListener {
+            finish()
+        }
+
 
 
         guardarlibroButton.setOnClickListener {
