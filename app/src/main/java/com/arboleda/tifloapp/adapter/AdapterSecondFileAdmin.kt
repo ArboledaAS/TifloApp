@@ -5,12 +5,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.MyApplication
 import com.arboleda.tifloapp.databinding.RowFile2AdminBinding
 import com.arboleda.tifloapp.databinding.RowFileAdminBinding
+import com.arboleda.tifloapp.model.ModelDeleteBook
 import com.arboleda.tifloapp.model.ModelFile
 import com.arboleda.tifloapp.model.ModelUniversal
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.HolderSecondFileAdmin>{
 
@@ -57,6 +61,10 @@ class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.Holde
 
         MyApplication.loadCategory2(poesiaid, holder.categoryTv)
 
+        holder.moreBtn.setOnClickListener {
+            moreOptionDialog(model, holder)
+        }
+
     }
 
     private fun moreOptionDialog(model: ModelUniversal, holder: AdapterSecondFileAdmin.HolderSecondFileAdmin) {
@@ -70,11 +78,43 @@ class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.Holde
         builder.setTitle("Seleccionar opcion")
                 .setItems(options){dialog,position ->
                     if (position == 0){
-
+                        eliminarPoesia(model, holder)
                     }
                 }
                 .show()
     }
+
+
+    private fun eliminarPoesia(model: ModelUniversal, holder: AdapterSecondFileAdmin.HolderSecondFileAdmin) {
+        // obtener id de la categoria a eliminar
+        val id = model.id
+        val url = model.url.toString()
+
+        var storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url)
+        storageReference.delete()
+            .addOnSuccessListener {
+
+                // Firebase Realtime > Libros > IDlibro
+                val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+                ref.child(id)
+                    .removeValue()
+                    .addOnSuccessListener {
+                        Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+            }.addOnFailureListener {
+                Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+
+
+    }
+
+
+
+
 
     override fun getItemCount(): Int {
         return secondFileArrayList.size

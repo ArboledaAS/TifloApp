@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TifloApp">
-        <activity android:name=".menus.SimpleMenuActivity"></activity>
+        <activity android:name=".RemoveUserActivity"></activity>
+        <activity android:name=".menus.SimpleMenuActivity" />
         <activity android:name=".view.FinalActivity" />
         <activity android:name=".view.SecondUserListActivity" />
         <activity android:name=".view.FirstUserListActivity" />

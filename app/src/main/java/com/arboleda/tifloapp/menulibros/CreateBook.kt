@@ -52,11 +52,14 @@ class CreateBook : AppCompatActivity() {
             var palabraclave = edittextpalabraclave.text.toString().capitalize()
 
             if (edittextnombrelibro.text.toString().isEmpty()){
+                progressDialog.dismiss()
                 Toast.makeText(this,"Nombre del libro es requerido", Toast.LENGTH_LONG).show()
             }else if (edittextpalabraclave.text.toString().isEmpty()){
+                progressDialog.dismiss()
                 Toast.makeText(this,"Es requerido una palabra clave para reconocer el libro", Toast.LENGTH_LONG).show()
             }
             else if (imageUri == null){
+                progressDialog.dismiss()
                 Toast.makeText(this,"Elige una imagen porfavor", Toast.LENGTH_LONG).show()
             }else if (palabraclave == "Libros" || palabraclave == "Libro" || palabraclave == "Lista" ||
                     palabraclave == "Listas" || palabraclave == "Ayuda" || palabraclave == "Comandos"
@@ -65,7 +68,7 @@ class CreateBook : AppCompatActivity() {
                     || palabraclave == "Inicio" || palabraclave == "Reproducir"|| palabraclave == "Play"
                     || palabraclave == "Reproduce" || palabraclave == "Repetir" ||
                     palabraclave == "Reiniciar"){
-
+                        progressDialog.dismiss()
                 Toast.makeText(this,"Esta palabra esta reservada para el Sistema",Toast.LENGTH_LONG).show()
             }
             else {
@@ -170,6 +173,7 @@ class CreateBook : AppCompatActivity() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
+                progressDialog.dismiss()
                 Toast.makeText(this@CreateBook,error.message,Toast.LENGTH_SHORT).show()
             }
         })

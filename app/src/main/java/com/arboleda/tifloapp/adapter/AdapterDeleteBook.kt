@@ -14,6 +14,7 @@ import com.arboleda.tifloapp.menulibros.FileListAdminActivity
 import com.arboleda.tifloapp.menulibros.FilterBook
 import com.arboleda.tifloapp.model.ModelDeleteBook
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_master_menu.view.*
 
 class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook>, Filterable{
@@ -81,16 +82,28 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
     private fun eliminarLibro(model: ModelDeleteBook, holder: HolderDeleteBook) {
        // obtener id de la categoria a eliminar
         val id = model.id
-        // Firebase Realtime > Libros > IDlibro
-        val ref = FirebaseDatabase.getInstance().getReference("libros")
-        ref.child(id)
-            .removeValue()
+        val url = model.img.toString()
+
+        var storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url)
+        storageReference.delete()
             .addOnSuccessListener {
-                Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+
+                // Firebase Realtime > Libros > IDlibro
+                val ref = FirebaseDatabase.getInstance().getReference("libros")
+                ref.child(id)
+                    .removeValue()
+                    .addOnSuccessListener {
+                        Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+
+            }.addOnFailureListener {
+                Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
             }
-            .addOnFailureListener {
-                Toast.makeText(context,"No se pudo eliminar el libro de la base de datos", Toast.LENGTH_SHORT).show()
-            }
+
+
     }
 
     override fun getItemCount(): Int {

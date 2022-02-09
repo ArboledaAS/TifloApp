@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.arboleda.tifloapp.AuthActivity
 import com.arboleda.tifloapp.R
+import com.arboleda.tifloapp.RemoveUserActivity
 import com.arboleda.tifloapp.menulibros.ContentAddActivity
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
@@ -78,7 +79,7 @@ class MasterMenu : AppCompatActivity() {
         }
 
         eliminarUsuarioCarview.setOnClickListener {
-
+            startActivity(Intent(this, RemoveUserActivity::class.java))
         }
 
         crearLibroCarview.setOnClickListener {

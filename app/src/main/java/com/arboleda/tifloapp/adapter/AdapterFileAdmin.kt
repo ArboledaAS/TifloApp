@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.MyApplication
 import com.arboleda.tifloapp.databinding.RowFileAdminBinding
 import com.arboleda.tifloapp.menulibros.FilterFileAdmin
 import com.arboleda.tifloapp.model.ModelFile
 import com.arboleda.tifloapp.menulibros.SecondListAdminActivity
+import com.google.firebase.database.FirebaseDatabase
 import java.util.ArrayList
 
 class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, Filterable{
@@ -93,10 +95,25 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
         builder.setTitle("Seleccionar opcion")
                 .setItems(options){dialog,position ->
                     if (position == 0){
-                        MyApplication.deleteFile(context,bookId, bookTitle,bookUrl )
+                        //MyApplication.deleteFile(context,bookId, bookTitle,bookUrl )
+                        eliminarPoesia(model, holder)
                     }
                 }
                 .show()
+    }
+
+    fun eliminarPoesia(model: ModelFile, holder: AdapterFileAdmin.HolderFileAdmin){
+        var id = model.id
+
+        val ref = FirebaseDatabase.getInstance().getReference("libros")
+        ref.child(id)
+            .removeValue()
+            .addOnSuccessListener {
+                Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
