@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: ProgressDialog
 
+
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,34 +67,45 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance()
             .signInWithEmailAndPassword(accederTextEmail.text.toString().trim(),
                 accederTextPassword.text.toString().trim()).addOnCompleteListener{
-                var uid = it.result?.user?.uid.toString()
-                val ref = FirebaseDatabase.getInstance().getReference("usuarios")
-                ref.child(uid)
-                    .addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.exists()){
-                                var contenedor = snapshot.child("nivel").value
+                    if (it.isSuccessful){
+                        var uid = it.result?.user?.uid.toString()
+                        val ref = FirebaseDatabase.getInstance().getReference("usuarios")
+                        ref.child(uid)
+                                .addListenerForSingleValueEvent(object : ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
 
-                                if (contenedor == "0"){
-                                    progressDialog.dismiss()
-                                    startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
-                                    finish()
-                                }
-                                if (contenedor == "1"){
-                                    progressDialog.dismiss()
-                                    startActivity(Intent(this@LoginActivity,SimpleMenuActivity::class.java))
-                                    finish()
-                                }
-                            }
-                        }
+                                        if (snapshot.exists()){
+                                            var contenedor = snapshot.child("nivel").value
 
-                        override fun onCancelled(error: DatabaseError) {
-                            progressDialog.dismiss()
-                            Toast.makeText(this@LoginActivity, "No se pudo realizar la accion" +
-                                    "debido a que: ${error.message}", Toast.LENGTH_LONG).show()
-                        }
+                                            if (contenedor == "0"){
+                                                progressDialog.dismiss()
+                                                startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
+                                                finish()
+                                            }
+                                            else if (contenedor == "1"){
+                                                progressDialog.dismiss()
+                                                startActivity(Intent(this@LoginActivity,SimpleMenuActivity::class.java))
+                                                finish()
+                                            }else{
+                                                progressDialog.dismiss()
+                                                Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
 
-                    })
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        progressDialog.dismiss()
+                                        Toast.makeText(this@LoginActivity, "No se pudo realizar la accion" +
+                                                "debido a que: ${error.message}", Toast.LENGTH_LONG).show()
+                                    }
+
+                                })
+
+
+
+                        /////////
+                    }
 
                 /*
                 if (it.isSuccessful){
@@ -120,7 +132,8 @@ class LoginActivity : AppCompatActivity() {
                 }*/
 
             }.addOnFailureListener {
-                Toast.makeText(this, "No se pudo haceder debido a que: ${it.message} ", Toast.LENGTH_LONG).show()
+                    progressDialog.dismiss()
+                Toast.makeText(this, "No se pudo acceder debido a que: ${it.message} ", Toast.LENGTH_LONG).show()
             }
     }
 
