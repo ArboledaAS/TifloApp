@@ -35,6 +35,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
+
+    //variable asignada a la clase bindig
     private lateinit var binding: ActivityMainBinding
 
     //firebase
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var textToSpeech: TextToSpeech
 
-    private lateinit var baseArrayList:ArrayList<ModelUniversal>
+
 
     private val TAG = "DATA_BASE"
 
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -159,30 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /*private fun loadFileBook() {
-        Log.d(TAG, "Cargando Archivos LIBRO")
 
-        baseArrayList = ArrayList()
-
-        val ref = FirebaseDatabase.getInstance().getReference("libros")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                //Limpiar lista despues de agregar datos
-                baseArrayList.clear()
-                for (ds in snapshot.children){
-
-                    val model = ds.getValue(ModelUniversal::class.java)
-
-                    baseArrayList.add(model!!)
-                    Log.d(TAG,"onDataChange: ${model.name}")
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-    }*/
 
 
 

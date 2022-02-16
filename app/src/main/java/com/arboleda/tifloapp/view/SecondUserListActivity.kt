@@ -142,7 +142,7 @@ class SecondUserListActivity : AppCompatActivity() {
 
 
     fun verificarBase(identificar:String){
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
         ref.orderByChild("poesiaid").equalTo(poesiaid)
                 .addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -174,7 +174,7 @@ class SecondUserListActivity : AppCompatActivity() {
 
 
     fun  verificarBase2(){
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
         ref.orderByChild("poesiaid").equalTo(poesiaid)
                 .addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -200,7 +200,7 @@ class SecondUserListActivity : AppCompatActivity() {
 
 
     fun  verificarBase3(identificar:String) {
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
         ref.orderByChild("pclave").equalTo(identificar)
                 .addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -225,7 +225,7 @@ class SecondUserListActivity : AppCompatActivity() {
         /*val ref = FirebaseDatabase.getInstance().getReference("Archivos")
         ref.orderByChild("librosid").equalTo(bookId)*/
 
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
         ref.orderByChild("poesiaid").equalTo(poesiaid)
                 .addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {

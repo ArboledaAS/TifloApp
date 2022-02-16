@@ -92,15 +92,19 @@ class AuthActivity : AppCompatActivity() {
 
 
     private fun createUser(){
-        val email = emailEditText.text.toString().trim()
-        val contrasena = passwordEditText.text.toString().trim()
+        val email = binding.emailEditText.text.toString().trim()
+        val contrasena = binding.passwordEditText.text.toString().trim()
+        val nombre = binding.nombreEditText.text.toString()
 
-        if (email.isNotEmpty() && contrasena.isNotEmpty()){
+        if (email.isNotEmpty() && contrasena.isNotEmpty() && nombre.isNotEmpty()){
             progressDialog.setMessage("Creando cuenta")
             progressDialog.show()
 
+            /**Acceder al servicio Firebaseauth createuser la cual
+             espera un email y contraseña para poder agregarlo o comprobar si ya existe*/
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,contrasena)
                 .addOnSuccessListener {
+                    //Obtiene el uid del usuario creado y lo manda a la funcion
                     var uid = it.user?.uid.toString()
                     authuserfirebasedb(uid)
                 }
@@ -111,7 +115,7 @@ class AuthActivity : AppCompatActivity() {
 
         }else{
             //mostraralerta()
-            Toast.makeText(this, "Porfavor llene los campos de email y contraseña", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Porfavor llene los campos de nombre, email y contraseña", Toast.LENGTH_LONG).show()
         }
 
 
@@ -120,27 +124,31 @@ class AuthActivity : AppCompatActivity() {
 
 
     private fun authuserfirebasedb(uid:String) {
-        val email = emailEditText.text.toString().trim()
-
+        val email = binding.emailEditText.text.toString().trim()
+        val nombre = binding.nombreEditText.text.toString()
 
         progressDialog.setMessage("Guardando informacion del usuario")
 
         Toast.makeText(this,"Se creo usuario",Toast.LENGTH_SHORT).show()
 
+        /**se inicia la operacion de escritura y se pasa la uid del usuario para que sea
+         el valor unico que va a identificar los datos del usuario guardado*/
         val dbReference = FirebaseDatabase.getInstance().getReference("usuarios")
                 dbReference.child(uid).setValue(hashMapOf(
                 "id" to uid,
                 "email" to email,
-                "nivel" to "$prueba"))
+                "nivel" to "$prueba",
+                "name" to nombre))
                         .addOnSuccessListener {
                             progressDialog.dismiss()
                             Toast.makeText(this, "Se creo la cuenta exitosamente....", Toast.LENGTH_LONG).show()
-                            emailEditText.setText(null)
-                            passwordEditText.setText(null)
+                            binding.nombreEditText.setText(null)
+                            binding.emailEditText.setText(null)
+                            binding.passwordEditText.setText(null)
                         }
                         .addOnFailureListener {
                             progressDialog.dismiss()
-                            Toast.makeText(this, "No se pudo realizar debido a ${it.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "No se pudo realizar debido a: ${it.message}", Toast.LENGTH_LONG).show()
 
                         }
     }
@@ -157,7 +165,7 @@ class AuthActivity : AppCompatActivity() {
 
 
 
-
+/**
     ////////////////inicializa el menu escritor y lector
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -166,15 +174,18 @@ class AuthActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
-            R.id.menu_escritor -> startActivity(Intent(this,LoginActivity::class.java))
-            R.id.menu_lector -> startActivity(Intent(this,AuthActivity::class.java))
+            R.id.menu_escritor -> {startActivity(Intent(this,LoginActivity::class.java))
+            finish()}
+            R.id.menu_lector -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            finish()}
         }
         return super.onOptionsItemSelected(item)
     }
     ////////////////inicializa el menu escritor y lector*******
 
 
-
+*/
 
 
 }

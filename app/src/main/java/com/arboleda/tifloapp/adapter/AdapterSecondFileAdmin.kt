@@ -2,6 +2,7 @@ package com.arboleda.tifloapp.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,10 @@ import com.google.firebase.storage.FirebaseStorage
 
 class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.HolderSecondFileAdmin>{
 
+
     private var context: Context
+
+    private lateinit var id:String
 
     public var secondFileArrayList: ArrayList<ModelUniversal>
 
@@ -30,9 +34,10 @@ class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.Holde
 
 
     ////constructor
-    constructor(context: Context, secondFileArrayList: ArrayList<ModelUniversal>) : super() {
+    constructor(context: Context, secondFileArrayList: ArrayList<ModelUniversal>, id:String) : super() {
         this.context = context
         this.secondFileArrayList = secondFileArrayList
+        this.id = id
 
     }
 
@@ -71,6 +76,7 @@ class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.Holde
         val bookId = model.id
         val bookUrl = model.url
         var bookTitle = model.name
+        var prueba: AdapterFileAdmin
 
         val options = arrayOf("Eliminar")
 
@@ -88,22 +94,24 @@ class AdapterSecondFileAdmin  :RecyclerView.Adapter<AdapterSecondFileAdmin.Holde
     private fun eliminarPoesia(model: ModelUniversal, holder: AdapterSecondFileAdmin.HolderSecondFileAdmin) {
         // obtener id de la categoria a eliminar
         val id = model.id
-        val url = model.url.toString()
+        val url = model.url
+        var poesiaid = this.id
+
+        /**AQUI */
 
         var storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(url)
         storageReference.delete()
             .addOnSuccessListener {
-
-                // Firebase Realtime > Libros > IDlibro
-                val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+                val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
                 ref.child(id)
-                    .removeValue()
-                    .addOnSuccessListener {
-                        Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
-                    }
+                        .removeValue()
+                        .addOnSuccessListener {
+                            Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+
 
             }.addOnFailureListener {
                 Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()

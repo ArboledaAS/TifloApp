@@ -12,6 +12,7 @@ import com.arboleda.tifloapp.databinding.ActivityLoginBinding
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menus.MasterMenu
 import com.arboleda.tifloapp.menus.SimpleMenuActivity
+import com.arboleda.tifloapp.view.FirstUserListActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,18 +64,22 @@ class LoginActivity : AppCompatActivity() {
     fun verificarLogin(){
         progressDialog.setMessage("Iniciando sesión")
         progressDialog.show()
-
+        //Acceder al servicio de firebase auth la cual espera un email y una contraseña
         FirebaseAuth.getInstance()
-            .signInWithEmailAndPassword(accederTextEmail.text.toString().trim(),
-                accederTextPassword.text.toString().trim()).addOnCompleteListener{
+            .signInWithEmailAndPassword(binding.accederTextEmail.text.toString().trim(),
+                binding.accederTextPassword.text.toString().trim()).addOnCompleteListener{
+                    //Si se completa el registro del usuario ejecutara lo que esta en el IF
                     if (it.isSuccessful){
+                        //obtiene el uid del usuario registrado
                         var uid = it.result?.user?.uid.toString()
+                        //busca en la base de datos el usuario con el uid obtenido
                         val ref = FirebaseDatabase.getInstance().getReference("usuarios")
                         ref.child(uid)
                                 .addListenerForSingleValueEvent(object : ValueEventListener{
                                     override fun onDataChange(snapshot: DataSnapshot) {
-
+                                        //si el usuario existe ejecutara el interior del IF
                                         if (snapshot.exists()){
+                                            //Obtiene de la base de datos el valor del apartado nivel
                                             var contenedor = snapshot.child("nivel").value
 
                                             if (contenedor == "0"){

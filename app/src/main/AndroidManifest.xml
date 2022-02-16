@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.arboleda.tifloapp">
 
+    <!--Permite a las aplicaciones tener acceso a la red de internet-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--Permite que la aplicación grabe audio-->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--Permite a las aplicaciones acceder a información sobre redes-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application

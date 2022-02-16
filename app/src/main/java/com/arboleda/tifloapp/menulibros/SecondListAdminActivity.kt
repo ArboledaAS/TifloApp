@@ -44,8 +44,8 @@ class SecondListAdminActivity : AppCompatActivity() {
 
     private fun loadSecondFileList() {
         secondListArrayList = ArrayList()
-
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        /**AQUI MODIFIQUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE*/
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(poesiaid)
         ref.orderByChild("poesiaid").equalTo(poesiaid)
                 .addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -60,7 +60,7 @@ class SecondListAdminActivity : AppCompatActivity() {
                             }
                         }
 
-                        adapterSecondFileAdmin = AdapterSecondFileAdmin(this@SecondListAdminActivity,secondListArrayList)
+                        adapterSecondFileAdmin = AdapterSecondFileAdmin(this@SecondListAdminActivity,secondListArrayList, poesiaid)
                         binding.booksRv.adapter = adapterSecondFileAdmin
                     }
 

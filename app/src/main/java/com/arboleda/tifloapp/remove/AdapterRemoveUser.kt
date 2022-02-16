@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.databinding.RowRemoveUserAdminBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
@@ -34,6 +35,7 @@ class AdapterRemoveUser:RecyclerView.Adapter<AdapterRemoveUser.HolderRemoveUser>
 
     inner class  HolderRemoveUser(itemView: View):RecyclerView.ViewHolder(itemView){
 
+        var nameTv:TextView = binding.nameTv
         var emailTv:TextView = binding.emailTv
         var nivelTv:TextView = binding.nivelTv
         var removeBtn:ImageButton = binding.removeBtn
@@ -52,7 +54,9 @@ class AdapterRemoveUser:RecyclerView.Adapter<AdapterRemoveUser.HolderRemoveUser>
         val email = model.email
         val id = model.id
         val nivel = model.nivel
+        val name = model.name
 
+        holder.nameTv.text = name
         holder.emailTv.text = email
         if (nivel == "0"){
             holder.nivelTv.text = "Administrador"
@@ -78,6 +82,8 @@ class AdapterRemoveUser:RecyclerView.Adapter<AdapterRemoveUser.HolderRemoveUser>
 
     private fun deleteUser(model: ModelRemoveUser, holder: HolderRemoveUser) {
         val id = model.id.trim()
+
+
 
         val ref = FirebaseDatabase.getInstance().getReference("usuarios")
         ref.child(id)

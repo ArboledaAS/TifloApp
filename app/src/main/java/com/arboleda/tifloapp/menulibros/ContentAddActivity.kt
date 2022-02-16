@@ -168,8 +168,8 @@ class ContentAddActivity : AppCompatActivity() {
         hashMap["pclave"] = "$pclave"
         hashMap["poesiaid"] = "$selectBookId"
         hashMap["url"] = "$uploadFileUrl"
-
-        val ref = FirebaseDatabase.getInstance().getReference("Archivos")
+        /**AQUI*/
+        val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(selectBookId)
         ref.child("$timestamp")
             .setValue(hashMap)
             .addOnSuccessListener {
@@ -249,7 +249,7 @@ class ContentAddActivity : AppCompatActivity() {
         Log.d(TAG, "filePickIntent: Stark file pick intent")
 
         val intent = Intent()
-        intent.type = "file/*"
+        intent.type = "video/*"
         intent.action = Intent.ACTION_GET_CONTENT
         fileActivityResultlauncher.launch(intent)
     }
@@ -271,8 +271,8 @@ class ContentAddActivity : AppCompatActivity() {
 
 
     fun verificarBase(identificar:String){
-
-        val ref = FirebaseDatabase.getInstance().getReference().child("Archivos")
+        /**AQUI */
+        val ref = FirebaseDatabase.getInstance().getReference().child("Archivos").child(selectBookId)
         val buscar = ref.orderByChild("pclave").equalTo(identificar)
         buscar.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

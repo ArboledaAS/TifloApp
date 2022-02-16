@@ -20,6 +20,8 @@ import java.util.ArrayList
 
 class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, Filterable{
 
+    public var mandarid:String = ""
+
     //context
     private var  context: Context
 
@@ -62,6 +64,8 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
         val descrption = model.descripcion
         val fileUrl = model.url
 
+
+
         //set data
         holder.titleTv.text = title
         holder.descriptionTv.text = descrption
@@ -73,13 +77,19 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
             moreOptionDialog(model, holder)
 
 
+
         }
 
         holder.itemView.setOnClickListener {
+
             val intent = Intent(context, SecondListAdminActivity::class.java)
             intent.putExtra("poesiaid", fileId)
             intent.putExtra("poesianame", title)
             context.startActivity(intent)
+
+            mandarid = fileId
+
+
         }
 
     }
@@ -102,6 +112,10 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
                 .show()
     }
 
+
+
+
+
     fun eliminarPoesia(model: ModelFile, holder: AdapterFileAdmin.HolderFileAdmin){
         var id = model.id
 
@@ -115,6 +129,8 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
                 Toast.makeText(context,"No se pudo eliminar la poesia de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
 
 
     override fun getItemCount(): Int {

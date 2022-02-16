@@ -228,11 +228,14 @@ class PoesiaAddActivity : AppCompatActivity() {
     private var selectBookTitle = ""
 
     private  fun filePickDialog(){
-        Log.d(TAG, "filePickDialog: mostrando el cuadro de diálogo del selector de categorías de pdf ")
-
+        Log.d(TAG, "filePickDialog: mostrando el cuadro de diálogo del selector de categorías de libros ")
+        //pasa la cantidad de elementos que tendra basadados en categoryarraylist
         val categoriesArray = arrayOfNulls<String>(categoryArrayList.size)
+        //Se va iterar con el for de 0 hasta el numero elementos que contenga el arreglo
         for (i in categoryArrayList.indices){
+            //tomara la posicion del el elemento que contenga el campo name y se cargara
             categoriesArray[i] = categoryArrayList[i].name
+
         }
         //alerta de dialogo
         val builder = AlertDialog.Builder(this)

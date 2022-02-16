@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="90dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="5dp"
     app:cardCornerRadius="5dp"
@@ -13,25 +13,26 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
-            android:id="@+id/pdfRl"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:layout_marginEnd="5dp">
 
-
-        </RelativeLayout>
         <!--Titulo-->
         <TextView
-            android:id="@+id/emailTv"
+            android:id="@+id/nameTv"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:maxLines="1"
-            android:text="Correo"/>
+            android:text="Nombre"/>
 
         <!--Descripcion-->
+        <TextView
+            android:id="@+id/emailTv"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameTv"
+            android:maxLines="1"
+            android:text="Correo"/>
 
         <TextView
             android:id="@+id/nivelTv"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/emailTv"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="9dp"
             android:ellipsize="end"
 
             android:maxLines="4"

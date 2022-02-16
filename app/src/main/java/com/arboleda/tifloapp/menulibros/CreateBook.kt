@@ -95,7 +95,7 @@ class CreateBook : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        /// Veridicar Seleccionar imagen
+        /// Verificar Seleccionar imagen
         when {
             requestCode == SELEC_ACTIVITY_IMAGE && resultCode == Activity.RESULT_OK ->{
                 imageUri = data!!.data

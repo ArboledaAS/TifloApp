@@ -50,7 +50,9 @@ class FinalActivity : AppCompatActivity() {
 
         videoView = findViewById<VideoView>(R.id.Reproductor)
         val mediaController = MediaController(this)
+        //establecer vista de control
         mediaController.setAnchorView(videoView)
+        //Controles manuales
         videoView.setMediaController(mediaController)
         videoView.setVideoPath("$Url")
         videoView.requestFocus()

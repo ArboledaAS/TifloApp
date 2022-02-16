@@ -3,7 +3,11 @@ package com.arboleda.tifloapp.menus
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.arboleda.tifloapp.AuthActivity
+import com.arboleda.tifloapp.LoginActivity
+import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.remove.RemoveUserActivity
 import com.arboleda.tifloapp.menulibros.ContentAddActivity
@@ -100,6 +104,28 @@ class MasterMenu : AppCompatActivity() {
 
 
     }
+
+
+
+
+
+    ////////////////inicializa el menu escritor y lector
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
+            R.id.menu_escritor -> {startActivity(Intent(this, LoginActivity::class.java))
+                finish()}
+            R.id.menu_lector -> {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()}
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    ////////////////inicializa el menu escritor y lector*******
 
 
 
