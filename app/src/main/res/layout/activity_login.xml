@@ -103,10 +103,31 @@
                 app:cornerRadius="30dp"/>
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/accedergoogleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Google"
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="@color/purple_500"
+                android:drawableLeft="@drawable/ic_google_logo"
+                app:cornerRadius="30dp" />
+        </LinearLayout>
+
         <TextView
             android:onClick="forgotPassword"
             android:gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="¿olvidaste tu contraseña?"

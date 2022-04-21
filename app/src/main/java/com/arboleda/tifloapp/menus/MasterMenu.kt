@@ -1,5 +1,6 @@
 package com.arboleda.tifloapp.menus
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +15,12 @@ import com.arboleda.tifloapp.menulibros.ContentAddActivity
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.arboleda.tifloapp.menulibros.PoesiaAddActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_master_menu.*
+
+enum class ProviderType{
+    BASIC
+}
 
 class MasterMenu : AppCompatActivity() {
     var PosicionSpinner: Int = 0
@@ -22,6 +28,19 @@ class MasterMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_master_menu)
+
+        val bundle = intent.extras
+        val email = bundle?.getString("email")
+        val emailname = bundle?.getString("emailname")
+        val provider = bundle?.getString("provider")
+        setup(email?:"", provider?:"")
+        /** Guardado de datos*/
+        /**Gestor de preferencia de sesion*/
+        val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
+        prefs.putString("email", email)
+        prefs.putString("emailname", emailname)
+        prefs.putString("provider", provider)
+        prefs.apply()
 
         /*
         val analytics = FirebaseAnalytics.getInstance(this)
@@ -128,5 +147,20 @@ class MasterMenu : AppCompatActivity() {
     ////////////////inicializa el menu escritor y lector*******
 
 
+    private fun setup(email: String, provider: String){
+
+        title = "MenuMaster"
+        saludo_Menu.text = "Bienvenido $email"
+        val provi = provider
+
+        cerrarsecionCarview.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
+            prefs.clear()
+            prefs.apply()
+            finish()
+            startActivity(Intent(this,MainActivity::class.java))
+        }
+    }
 
 }

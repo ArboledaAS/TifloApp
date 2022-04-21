@@ -2,6 +2,7 @@ package com.arboleda.tifloapp
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.arboleda.tifloapp.databinding.RowUser2ListBinding
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.arboleda.tifloapp.menus.MasterMenu
+import com.arboleda.tifloapp.menus.ProviderType
 import com.arboleda.tifloapp.model.LibroData
 import com.arboleda.tifloapp.model.ModelDeleteBook
 import com.arboleda.tifloapp.model.ModelUniversal
@@ -34,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class MainActivity : AppCompatActivity() {
 
     //variable asignada a la clase bindig
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     lateinit var textToSpeech: TextToSpeech
+
 
 
 
@@ -59,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         firebaseAuth = FirebaseAuth.getInstance()
        // loadFileBook()
@@ -243,6 +249,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
     ////////////////inicializa el menu escritor y lector
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -251,12 +259,44 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
-            R.id.menu_escritor -> startActivity(Intent(this,LoginActivity::class.java))
+            R.id.menu_escritor ->{
+                sesion()
+
+
+            }
             R.id.menu_lector -> {startActivity(Intent(this,MainActivity::class.java))
             finish()}
         }
         return super.onOptionsItemSelected(item)
     }
     ////////////////inicializa el menu escritor y lector
+
+
+
+
+
+    fun sesion(){
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        var email = prefs.getString("email", null)
+        var emailname = prefs.getString("emailname", null)
+        var provider = prefs.getString("provider", null)
+
+        if (email != null && provider != null){
+            showHome(email, ProviderType.BASIC)
+        }else{
+            startActivity(Intent(this,LoginActivity::class.java))
+        }
+
+    }
+
+    private fun showHome(email: String, provider: ProviderType){
+        val homeIntent = Intent (this, MasterMenu::class.java ).apply {
+
+            putExtra("email", email)
+            putExtra("provider", provider.name)
+        }
+        startActivity(homeIntent)
+    }
+
 
 }

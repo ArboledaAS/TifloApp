@@ -2,6 +2,7 @@ package com.arboleda.tifloapp
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,8 +12,10 @@ import com.arboleda.tifloapp.databinding.ActivityAuthBinding
 import com.arboleda.tifloapp.databinding.ActivityLoginBinding
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menus.MasterMenu
+import com.arboleda.tifloapp.menus.ProviderType
 import com.arboleda.tifloapp.menus.SimpleMenuActivity
 import com.arboleda.tifloapp.view.FirstUserListActivity
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,6 +39,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setup()
+        sesion()
+
 
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Espere Porfavor")
@@ -56,7 +62,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+
+        binding.accedergoogleButton.setOnClickListener {
+/**
+            val googleCof = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
+                    getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build()**/
+        }
+
     }
+
+
 
 
 
@@ -72,6 +89,9 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful){
                         //obtiene el uid del usuario registrado
                         var uid = it.result?.user?.uid.toString()
+                        /**Agregado*/
+                        var emailid = it.result?.user?.email
+
                         //busca en la base de datos el usuario con el uid obtenido
                         val ref = FirebaseDatabase.getInstance().getReference("usuarios")
                         ref.child(uid)
@@ -84,7 +104,11 @@ class LoginActivity : AppCompatActivity() {
 
                                             if (contenedor == "0"){
                                                 progressDialog.dismiss()
-                                                startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
+
+                                                /**Agregado*/
+                                                var contenedorname = snapshot.child("name").value
+                                                showHome(contenedorname.toString(), emailid.toString(), ProviderType.BASIC)
+                                                //startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
                                                 finish()
                                             }
                                             else if (contenedor == "1"){
@@ -156,4 +180,36 @@ class LoginActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+
+
+    private fun setup(){
+        title = "Autenticacion"
+    }
+
+    private fun showHome(nameemail: String, emailid:String, provider: ProviderType){
+        val homeIntent = Intent (this, MasterMenu::class.java ).apply {
+
+            putExtra("emailname", nameemail)
+            putExtra("email", emailid)
+            putExtra("provider", provider.name)
+        }
+        startActivity(homeIntent)
+    }
+
+    private fun sesion(){
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        val email = prefs.getString("email", null)
+        val emailname = prefs.getString("emailname", null)
+        val provider = prefs.getString("provider", null)
+
+        if (email != null && provider != null && emailname != null){
+            showHome(email, emailname, ProviderType.valueOf(provider))
+        }
+
+    }
+
+
+
+
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TifloApp</string>
+    <string name="prefs_file">com.arboleda.tifloapp.PREFERENCE:FILE_KEY</string>
 </resources>
