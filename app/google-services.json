@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "694591666410",
-    "project_id": "tifloappbase1",
-    "storage_bucket": "tifloappbase1.appspot.com"
+    "project_number": "506210347941",
+    "firebase_url": "https://tifloappbase2-default-rtdb.firebaseio.com",
+    "project_id": "tifloappbase2",
+    "storage_bucket": "tifloappbase2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:694591666410:android:f408084892bdbbcde07f93",
+        "mobilesdk_app_id": "1:506210347941:android:28c2b5ddee982965d4d64c",
         "android_client_info": {
           "package_name": "com.arboleda.tifloapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "694591666410-jltd0rgfgojrgfsomr0q4jj178b7sgl0.apps.googleusercontent.com",
+          "client_id": "506210347941-rl0cejg95n0cegb09oip37ptm1qq039g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBsmY7-ZYhMyGYpbS1qi_LifXmoVZ4PbHM"
+          "current_key": "AIzaSyBFsbBpfFYiB23RzWbCVLTZLQ7VWvtmPjc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "694591666410-jltd0rgfgojrgfsomr0q4jj178b7sgl0.apps.googleusercontent.com",
+              "client_id": "506210347941-rl0cejg95n0cegb09oip37ptm1qq039g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

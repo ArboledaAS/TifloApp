@@ -15,8 +15,11 @@ import com.arboleda.tifloapp.menus.MasterMenu
 import com.arboleda.tifloapp.menus.ProviderType
 import com.arboleda.tifloapp.menus.SimpleMenuActivity
 import com.arboleda.tifloapp.view.FirstUserListActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
+
+    private val GOOGLE_SIGN_IN = 12
 
     private lateinit var binding: ActivityLoginBinding
 
@@ -64,11 +69,16 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.accedergoogleButton.setOnClickListener {
-/**
+
             val googleCof = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
                     getString(R.string.default_web_client_id))
                     .requestEmail()
-                    .build()**/
+                    .build()
+
+            val googleClient = GoogleSignIn.getClient(this, googleCof)
+            googleClient.signOut()
+
+            startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN )
         }
 
     }
@@ -207,6 +217,93 @@ class LoginActivity : AppCompatActivity() {
             showHome(email, emailname, ProviderType.valueOf(provider))
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+
+            try {
+
+                val account = task.getResult(ApiException::class.java)
+
+
+                if (account != null){
+
+                    val credencial = GoogleAuthProvider.getCredential(account.idToken, null)
+
+                    FirebaseAuth.getInstance().signInWithCredential(credencial).addOnCompleteListener{
+                        //Si se completa el registro del usuario ejecutara lo que esta en el IF
+                        if (it.isSuccessful){
+                            //obtiene el uid del usuario registrado
+                            var uid = it.result?.user?.uid.toString()
+                            /**Agregado*/
+                            var emailid = it.result?.user?.email
+
+                            //busca en la base de datos el usuario con el uid obtenido
+                            val ref = FirebaseDatabase.getInstance().getReference("usuarios")
+                            ref.child(uid)
+                                .addListenerForSingleValueEvent(object : ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        //si el usuario existe ejecutara el interior del IF
+                                        if (snapshot.exists()){
+                                            //Obtiene de la base de datos el valor del apartado nivel
+                                            var contenedor = snapshot.child("nivel").value
+
+                                            if (contenedor == "0"){
+                                                progressDialog.dismiss()
+
+                                                /**Agregado*/
+                                                var contenedorname = snapshot.child("name").value
+                                                showHome(contenedorname.toString(), emailid.toString(), ProviderType.GOOGLE)
+                                                //startActivity(Intent(this@LoginActivity,MasterMenu::class.java))
+                                                finish()
+                                            }
+                                            else if (contenedor == "1"){
+                                                progressDialog.dismiss()
+                                                startActivity(Intent(this@LoginActivity,SimpleMenuActivity::class.java))
+                                                finish()
+                                            }else{
+                                                progressDialog.dismiss()
+                                                Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
+
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        progressDialog.dismiss()
+                                        Toast.makeText(this@LoginActivity, "No se pudo realizar la accion" +
+                                                "debido a que: ${error.message}", Toast.LENGTH_LONG).show()
+                                    }
+
+                                })
+
+
+
+                            /////////
+                        }
+
+                    }.addOnFailureListener {
+                        progressDialog.dismiss()
+                        Toast.makeText(this, "No se pudo acceder debido a que: ${it.message} ", Toast.LENGTH_LONG).show()
+                    }
+
+
+                    //////////////////////////////////////////////////////////////
+                }
+
+            } catch (e: ApiException){
+
+                progressDialog.dismiss()
+                Toast.makeText(this, "No se pudo acceder a la cuenta ", Toast.LENGTH_LONG).show()
+            }
+
+
+        }
     }
 
 

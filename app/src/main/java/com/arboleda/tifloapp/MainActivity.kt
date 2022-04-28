@@ -282,17 +282,18 @@ class MainActivity : AppCompatActivity() {
         var provider = prefs.getString("provider", null)
 
         if (email != null && provider != null){
-            showHome(email, ProviderType.BASIC)
+            showHome(email, emailname.toString(), ProviderType.BASIC)
         }else{
             startActivity(Intent(this,LoginActivity::class.java))
         }
 
     }
 
-    private fun showHome(email: String, provider: ProviderType){
+    private fun showHome(email: String, emailname:String, provider: ProviderType){
         val homeIntent = Intent (this, MasterMenu::class.java ).apply {
 
             putExtra("email", email)
+            putExtra("emailname", emailname)
             putExtra("provider", provider.name)
         }
         startActivity(homeIntent)

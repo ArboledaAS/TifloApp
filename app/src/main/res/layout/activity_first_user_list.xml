@@ -80,7 +80,16 @@
 
                 </LinearLayout>
 
+
+
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/descripcionbutton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_baseline_keyboard_double_arrow_down_24"/>
 
         </LinearLayout>
 

@@ -79,7 +79,16 @@ class FirstUserListActivity : AppCompatActivity() {
             entradaDeVoz()
         }
 
-        binding.carviewpantalla.setOnClickListener {
+        /*binding.carviewpantalla.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("$bookname")
+            builder.setMessage("${bookinfo}")
+            builder.setPositiveButton("Cerrar",null)
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }*/
+
+        binding.descripcionbutton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("$bookname")
             builder.setMessage("${bookinfo}")

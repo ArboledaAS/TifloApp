@@ -1,19 +1,20 @@
 package com.arboleda.tifloapp.view
 
+import android.accessibilityservice.AccessibilityService
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
-import android.widget.MediaController
-import android.widget.Toast
-import android.widget.VideoView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.arboleda.tifloapp.LoginActivity
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.menulibros.DeleteBook
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.android.synthetic.main.activity_final.*
 import kotlinx.android.synthetic.main.activity_final.ReconocerBottom
 import kotlinx.android.synthetic.main.activity_final.editTextSpeech
@@ -34,6 +35,12 @@ class FinalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_final)
 
+
+        val playerView = findViewById<PlayerView>(R.id.playerexo)
+        val progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
+        val bt_fullscreen = findViewById<ImageView>(R.id.exo_)
+
+
         textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {status ->
             if (status != TextToSpeech.ERROR){
                 textToSpeech.language = Locale.getDefault()
@@ -48,7 +55,7 @@ class FinalActivity : AppCompatActivity() {
 
 
 
-        videoView = findViewById<VideoView>(R.id.Reproductor)
+        //videoView = findViewById<VideoView>(R.id.Reproductor)
         val mediaController = MediaController(this)
         //establecer vista de control
         mediaController.setAnchorView(videoView)

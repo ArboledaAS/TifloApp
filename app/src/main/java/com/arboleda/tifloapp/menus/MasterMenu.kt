@@ -19,7 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_master_menu.*
 
 enum class ProviderType{
-    BASIC
+    BASIC,
+    GOOGLE
 }
 
 class MasterMenu : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MasterMenu : AppCompatActivity() {
         val email = bundle?.getString("email")
         val emailname = bundle?.getString("emailname")
         val provider = bundle?.getString("provider")
-        setup(email?:"", provider?:"")
+        setup(email?:"",emailname?:"", provider?:"")
         /** Guardado de datos*/
         /**Gestor de preferencia de sesion*/
         val prefs = getSharedPreferences(getString(R.string.prefs_file),Context.MODE_PRIVATE).edit()
@@ -147,10 +148,10 @@ class MasterMenu : AppCompatActivity() {
     ////////////////inicializa el menu escritor y lector*******
 
 
-    private fun setup(email: String, provider: String){
+    private fun setup(email: String,emailname: String, provider: String){
 
         title = "MenuMaster"
-        saludo_Menu.text = "Bienvenido $email"
+        saludo_Menu.text = "Bienvenido $emailname"
         val provi = provider
 
         cerrarsecionCarview.setOnClickListener {

@@ -21,8 +21,9 @@
     <Space
         android:id="@+id/eee"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="20dp"
         android:layout_below="@id/editTextSpeech"/>
+    <!--
         <LinearLayout
 
 
@@ -32,13 +33,39 @@
             android:orientation="horizontal"
             android:layout_above="@id/bottomLl">
 
-            <VideoView
-                android:id="@+id/Reproductor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
 
-        </LinearLayout>
+        </LinearLayout>-->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/eee">
+
+        <!--
+    <VideoView
+        android:id="@+id/Reproductor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        />-->
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerexo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:use_controller="true"
+            app:player_layout_id="@layout/exo_player_view"
+            app:controller_layout_id="@layout/custom_controller"
+            />
+
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/progress_Bar"
+        android:layout_centerInParent="true"/>
 
 
     <LinearLayout
@@ -52,6 +79,7 @@
         android:layout_marginBottom="10dp">
 
         <Space
+            android:id="@+id/ee2"
             android:layout_width="match_parent"
             android:layout_height="60dp" />
 
