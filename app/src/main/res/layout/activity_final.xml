@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray03"
     tools:context=".view.FinalActivity">
-
+<!--
     <TextView
         android:id="@+id/editTextSpeech"
         android:layout_width="match_parent"
@@ -17,13 +17,14 @@
         android:background="@color/white"
         android:hint="Reconocimiento"
         android:padding="10dp"
-        />
+        />-->
+    <!--
     <Space
         android:id="@+id/eee"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_below="@id/editTextSpeech"/>
-    <!--
+
         <LinearLayout
 
 
@@ -35,31 +36,33 @@
 
 
         </LinearLayout>-->
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_below="@+id/eee">
-
-        <!--
-    <VideoView
-        android:id="@+id/Reproductor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        />-->
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/playerexo"
+    <!--
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:use_controller="true"
-            app:player_layout_id="@layout/exo_player_view"
-            app:controller_layout_id="@layout/custom_controller"
+            android:layout_height="500dp"
+            android:layout_below="@+id/eee">
+
+
+        <VideoView
+            android:id="@+id/Reproductor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:background="@android:color/background_dark"
             />
 
-
-    </FrameLayout>
+        </FrameLayout>-->
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerexo"
+        android:layout_marginBottom="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:use_controller="true"
+        android:background="@android:color/background_dark"
+        app:player_layout_id="@layout/exo_player_view"
+        app:controller_layout_id="@layout/custom_controller"
+        />
 
     <ProgressBar
         android:layout_width="80dp"
@@ -78,10 +81,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp">
 
-        <Space
-            android:id="@+id/ee2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
+
 
 
 
@@ -89,11 +89,15 @@
             android:id="@+id/ReconocerBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="90dp"
+            android:minHeight="75dp"
+            android:drawableLeft="@drawable/ic_outline_mic"
+            android:backgroundTint="#3c4ca8"
             android:text="Reconocimiento"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:cornerRadius="30dp"/>
+            app:cornerRadius="30dp"
+
+            />
 
     </LinearLayout>
 

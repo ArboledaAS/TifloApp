@@ -2,28 +2,40 @@ package com.arboleda.tifloapp.view
 
 import android.accessibilityservice.AccessibilityService
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.support.v4.media.session.PlaybackStateCompat
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.arboleda.tifloapp.LoginActivity
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.android.synthetic.main.activity_final.*
 import kotlinx.android.synthetic.main.activity_final.ReconocerBottom
-import kotlinx.android.synthetic.main.activity_final.editTextSpeech
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 
 class FinalActivity : AppCompatActivity() {
 
+    var isFullScreen = false
+    lateinit var simpleExoPlayer:SimpleExoPlayer
 
     val RQ_ESCUCHA = 102
     lateinit var textToSpeech: TextToSpeech
@@ -38,7 +50,50 @@ class FinalActivity : AppCompatActivity() {
 
         val playerView = findViewById<PlayerView>(R.id.playerexo)
         val progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
-        val bt_fullscreen = findViewById<ImageView>(R.id.exo_)
+        val bt_fullscreen = findViewById<ImageView>(R.id.exo_fullscreen)
+
+        ReconocerBottom.visibility = View.VISIBLE
+
+
+
+
+        bt_fullscreen.setOnClickListener {
+
+            if (!isFullScreen){
+                bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen))
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+
+                ReconocerBottom.visibility = View.GONE
+            }
+            else{
+                bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen_exit))
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                ReconocerBottom.visibility = View.VISIBLE
+
+            }
+
+            isFullScreen =! isFullScreen
+        }
+
+        simpleExoPlayer= SimpleExoPlayer.Builder(this)
+            .setSeekBackIncrementMs(5000)
+            .setSeekForwardIncrementMs(5000)
+            .build()
+        playerView.player = simpleExoPlayer
+        playerView.keepScreenOn = true
+        simpleExoPlayer.addListener(object: Player.Listener{
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                if (playbackState == Player.STATE_BUFFERING)
+                {
+                    progressBar.visibility = View.VISIBLE
+                }else if (playbackState == Player.STATE_READY){
+                    progressBar.visibility = View.GONE
+                }
+            }
+
+        })
+
+
 
 
         textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener {status ->
@@ -53,9 +108,15 @@ class FinalActivity : AppCompatActivity() {
         val intent = intent
         Url = intent.getStringExtra("poesiaurl")!!
 
+        val videoSource = Uri.parse("$Url")
+        val mediaItem = MediaItem.fromUri(videoSource)
+        simpleExoPlayer.setMediaItem(mediaItem)
+        simpleExoPlayer.prepare()
+        simpleExoPlayer.play()
 
 
-        //videoView = findViewById<VideoView>(R.id.Reproductor)
+
+        /**videoView = findViewById<VideoView>(R.id.Reproductor)
         val mediaController = MediaController(this)
         //establecer vista de control
         mediaController.setAnchorView(videoView)
@@ -63,15 +124,16 @@ class FinalActivity : AppCompatActivity() {
         videoView.setMediaController(mediaController)
         videoView.setVideoPath("$Url")
         videoView.requestFocus()
-        videoView.start()
+        videoView.start()*/
 
         ReconocerBottom.setOnClickListener {
             if (textToSpeech.isSpeaking){
                 textToSpeech.stop()
             }
-
-            videoView.pause()
+/**
+            videoView.pause()*/
             entradaDeVoz()
+            simpleExoPlayer.pause()
         }
     }
 
@@ -82,7 +144,7 @@ class FinalActivity : AppCompatActivity() {
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
 
             val deSpeechToText = result?.get(0).toString().capitalize()
-            editTextSpeech.text = deSpeechToText
+            //editTextSpeech.text = deSpeechToText
             tomaDeOrdenes(deSpeechToText)
 
 
@@ -100,13 +162,29 @@ class FinalActivity : AppCompatActivity() {
                 startActivityForResult(i, RQ_ESCUCHA)
     }
 
+    override fun onStop() {
+        super.onStop()
+        simpleExoPlayer.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        simpleExoPlayer.release()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        simpleExoPlayer.pause()
+    }
+
+
     private fun tomaDeOrdenes(decision:String) {
         if (decision == "Reproducir"|| decision == "Play" || decision == "Reproduce"){
-            videoView.start()
-        }else if (decision == "Repetir" || decision == "Reiniciar"){
-            videoView.stopPlayback()
-            videoView.setVideoPath("$Url")
-            videoView.start()
+            simpleExoPlayer.play()
+        }
+        else if (decision == "Repetir" || decision == "Reiniciar"){
+            simpleExoPlayer.seekTo(0)
+            simpleExoPlayer.play()
         }
         else if (decision == "Atrás"){
             finish()

@@ -118,13 +118,13 @@
 
         <Button
             android:id="@+id/ReconocerBottom"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="90dp"
+            android:minHeight="75dp"
+            android:drawableLeft="@drawable/ic_outline_mic"
             android:text="Reconocimiento"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:backgroundTint="#3c4ca8"
             app:cornerRadius="30dp"
             />
 
