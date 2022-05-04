@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -14,6 +15,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -36,6 +39,8 @@ class FinalActivity : AppCompatActivity() {
 
     var isFullScreen = false
     lateinit var simpleExoPlayer:SimpleExoPlayer
+    private lateinit var constraintLayoutRoot: ConstraintLayout
+    private lateinit var playerView:PlayerView
 
     val RQ_ESCUCHA = 102
     lateinit var textToSpeech: TextToSpeech
@@ -48,11 +53,9 @@ class FinalActivity : AppCompatActivity() {
         setContentView(R.layout.activity_final)
 
 
-        val playerView = findViewById<PlayerView>(R.id.playerexo)
+        playerView = findViewById<PlayerView>(R.id.playerexo)
         val progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
         val bt_fullscreen = findViewById<ImageView>(R.id.exo_fullscreen)
-
-        ReconocerBottom.visibility = View.VISIBLE
 
 
 
@@ -63,13 +66,14 @@ class FinalActivity : AppCompatActivity() {
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
-                ReconocerBottom.visibility = View.GONE
+                ReconocerBottom.visibility = View.INVISIBLE
+
             }
             else{
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen_exit))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                ReconocerBottom.visibility = View.VISIBLE
 
+                ReconocerBottom.visibility = View.VISIBLE
             }
 
             isFullScreen =! isFullScreen
@@ -175,6 +179,57 @@ class FinalActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         simpleExoPlayer.pause()
+    }
+
+
+    /**
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.connect(playerView.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0 )
+        constraintSet.connect(playerView.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0 )
+        constraintSet.connect(playerView.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START,0 )
+        constraintSet.connect(playerView.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END,0 )
+
+
+
+        
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            hideSystemUI()
+        }
+        else{
+            showSystemUI()
+
+            val layoutParams = playerexo.layoutParams as ConstraintLayout.LayoutParams
+            layoutParams.dimensionRatio = "16:9"
+
+
+        }
+        window.decorView.requestLayout()
+    }*/
+
+    private fun hideSystemUI(){
+        actionBar?.hide()
+
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                )
+    }
+
+    private fun showSystemUI(){
+        actionBar?.show()
+
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                )
     }
 
 

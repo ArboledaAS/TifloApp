@@ -45,7 +45,7 @@ class AuthActivity : AppCompatActivity() {
 
         /////////// Seleccion de administrador de spinner
         val spinner = findViewById<Spinner>(R.id.opcionesSpinner)
-        val lista = listOf("Administrador", "Creador de contenido")
+        val lista = listOf("Administrador")
         val adaptador = ArrayAdapter(this,android.R.layout.simple_spinner_item,lista)
 
         spinner.adapter = adaptador

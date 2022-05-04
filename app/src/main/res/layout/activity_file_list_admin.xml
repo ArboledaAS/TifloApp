@@ -10,9 +10,10 @@
 
     <RelativeLayout
         android:id="@+id/toolbarRl"
-        android:background="@color/toolbarcolor"
+        android:background="@color/purple_200"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="?actionBarSize"
+        >
 
     <!--titulo-->
         <TextView

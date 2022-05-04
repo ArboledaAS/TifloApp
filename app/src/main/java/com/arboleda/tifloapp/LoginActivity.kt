@@ -130,6 +130,10 @@ class LoginActivity : AppCompatActivity() {
                                                 Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
 
                                             }
+                                        }else{
+                                            progressDialog.dismiss()
+                                            Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
+
                                         }
                                     }
 
@@ -271,6 +275,10 @@ class LoginActivity : AppCompatActivity() {
                                                 Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
 
                                             }
+                                        }else{
+                                            progressDialog.dismiss()
+                                            Toast.makeText(this@LoginActivity, "No se encontro en la base de datos", Toast.LENGTH_LONG).show()
+
                                         }
                                     }
 
@@ -294,6 +302,9 @@ class LoginActivity : AppCompatActivity() {
 
 
                     //////////////////////////////////////////////////////////////
+                }else{
+                    progressDialog.dismiss()
+                    Toast.makeText(this, "No se pudo acceder a la cuenta ", Toast.LENGTH_LONG).show()
                 }
 
             } catch (e: ApiException){

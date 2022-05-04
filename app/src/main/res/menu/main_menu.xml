@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <item
     android:id="@+id/menu_escritor"
     android:title="Escritor"
-    app:showAsAction="never"/>
+    android:icon="@drawable/ic_inclined_ballpoint"
+    app:showAsAction="always"/>
 
-    <item
+    <!--<item
         android:id="@+id/menu_lector"
         android:title="Inicio"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 </menu>

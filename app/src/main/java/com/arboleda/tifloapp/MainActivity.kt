@@ -262,10 +262,10 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_escritor ->{
                 sesion()
 
-
             }
+            /**
             R.id.menu_lector -> {startActivity(Intent(this,MainActivity::class.java))
-            finish()}
+            finish()}*/
         }
         return super.onOptionsItemSelected(item)
     }
