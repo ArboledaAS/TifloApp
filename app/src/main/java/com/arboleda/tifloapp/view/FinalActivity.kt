@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
 import com.arboleda.tifloapp.LoginActivity
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
@@ -66,6 +67,7 @@ class FinalActivity : AppCompatActivity() {
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
+                
                 ReconocerBottom.visibility = View.INVISIBLE
 
             }

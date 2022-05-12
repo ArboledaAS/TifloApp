@@ -121,6 +121,8 @@ class ContentAddActivity : AppCompatActivity() {
 
         }
         else{
+            progressDialog.setMessage("Verificando Base de Datos")
+            progressDialog.show()
             verificarBase(pclave)
 
         }
@@ -278,8 +280,11 @@ class ContentAddActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 if (snapshot.exists()) {
+                    progressDialog.dismiss()
                     Toast.makeText(this@ContentAddActivity,"Esta palabra clave ya está asignada a un Archivo",Toast.LENGTH_LONG).show()
                 }else{
+                    progressDialog.setMessage("Preparando subida de archivo")
+                    progressDialog.show()
                     uploadFiletoStorage()
                 }
             }

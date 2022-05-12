@@ -129,26 +129,7 @@ class MasterMenu : AppCompatActivity() {
 
 
 
-    ////////////////inicializa el menu escritor y lector
-    /**
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
 
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
-            R.id.menu_escritor -> {startActivity(Intent(this, LoginActivity::class.java))
-                finish()}
-           R.id.menu_lector -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()}
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-    ////////////////inicializa el menu escritor y lector*******
 
 
     private fun setup(email: String,emailname: String, provider: String){
@@ -166,5 +147,25 @@ class MasterMenu : AppCompatActivity() {
             startActivity(Intent(this,MainActivity::class.java))
         }
     }
+
+    ////////////////inicializa el menu escritor y lector
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu2, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
+            R.id.menu_casa -> {startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    ////////////////inicializa el menu escritor y lector*******
 
 }

@@ -1,12 +1,20 @@
 package com.arboleda.tifloapp.menulibros
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuItem
+import com.arboleda.tifloapp.LoginActivity
+import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.adapter.AdapterDeleteBook
 import com.arboleda.tifloapp.databinding.ActivityDeleteBookBinding
+import com.arboleda.tifloapp.menus.MasterMenu
+import com.arboleda.tifloapp.menus.ProviderType
 import com.arboleda.tifloapp.model.ModelDeleteBook
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -70,4 +78,49 @@ class DeleteBook : AppCompatActivity() {
             }
         })
     }
+
+
+    ////////////////inicializa el menu escritor y lector
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu2, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
+            R.id.menu_casa -> {sesion()}
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    ////////////////inicializa el menu escritor y lector*******
+
+
+    fun sesion(){
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        var email = prefs.getString("email", null)
+        var emailname = prefs.getString("emailname", null)
+        var provider = prefs.getString("provider", null)
+
+        if (email != null && provider != null){
+            showHome(email, emailname.toString(), ProviderType.BASIC)
+        }
+
+    }
+
+    private fun showHome(email: String, emailname:String, provider: ProviderType){
+        val homeIntent = Intent (this, MasterMenu::class.java ).apply {
+
+            putExtra("email", email)
+            putExtra("emailname", emailname)
+            putExtra("provider", provider.name)
+        }
+        finish()
+        startActivity(homeIntent)
+    }
+
+
 }
