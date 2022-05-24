@@ -78,6 +78,10 @@ dependencies {
     //Exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
 
+    //Libreria de PDfbarteksc
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 

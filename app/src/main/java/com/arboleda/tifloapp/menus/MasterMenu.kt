@@ -15,6 +15,7 @@ import com.arboleda.tifloapp.menulibros.ContentAddActivity
 import com.arboleda.tifloapp.menulibros.CreateBook
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.arboleda.tifloapp.menulibros.PoesiaAddActivity
+import com.arboleda.tifloapp.pdfs.AddPdfActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_master_menu.*
 
@@ -120,6 +121,10 @@ class MasterMenu : AppCompatActivity() {
 
         eliminarContenidoCarview.setOnClickListener {
             startActivity(Intent(this, DeleteBook::class.java))
+        }
+
+        agregarPdfCarview.setOnClickListener {
+            startActivity(Intent(this, AddPdfActivity::class.java))
         }
 
 

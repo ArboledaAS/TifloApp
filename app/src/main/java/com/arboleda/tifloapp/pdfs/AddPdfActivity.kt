@@ -1,5 +1,4 @@
-
-package com.arboleda.tifloapp.menulibros
+package com.arboleda.tifloapp.pdfs
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -14,7 +13,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import com.arboleda.tifloapp.databinding.ActivityContentAddBinding
+import com.arboleda.tifloapp.R
+import com.arboleda.tifloapp.databinding.ActivityAddPdfBinding
 import com.arboleda.tifloapp.model.ModelUniversal
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -25,11 +25,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-class ContentAddActivity : AppCompatActivity() {
+class AddPdfActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityContentAddBinding
+    private lateinit var binding: ActivityAddPdfBinding
+
 
     //firebase
     private lateinit var firebaseAuth: FirebaseAuth
@@ -48,21 +48,17 @@ class ContentAddActivity : AppCompatActivity() {
     //TAG
     private val TAG = "FILE_ADD_TAG"
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityContentAddBinding.inflate(layoutInflater)
+        binding = ActivityAddPdfBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_content_add)
-        firebaseAuth = FirebaseAuth.getInstance()
         loadFileBook()
 
-        //diálogo de progreso de configuración
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Espere Profavor")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        binding.categoryTv1.setOnClickListener {
+        binding.categoryTv4.setOnClickListener {
             filePickDialog()
         }
 
@@ -88,6 +84,9 @@ class ContentAddActivity : AppCompatActivity() {
             finish()
         }
 
+
+
+
     }
 
 
@@ -100,7 +99,7 @@ class ContentAddActivity : AppCompatActivity() {
 
         //obtener datos
         pclave = binding.titleEt1.text.toString().trim().capitalize()
-        poesia = binding.categoryTv1.text.toString().trim()
+        poesia = binding.categoryTv4.text.toString().trim()
 
         //Validar datos
         if (pclave.isEmpty()) {
@@ -113,11 +112,11 @@ class ContentAddActivity : AppCompatActivity() {
         }else if(fileUri == null){
             Toast.makeText(this,"Porfavor elija un archivo...",Toast.LENGTH_LONG).show()
         }else if (pclave == "Libros" || pclave == "Libro" || pclave == "Lista" || pclave == "Listas"
-                || pclave == "Ayuda" || pclave == "Comandos" || pclave == "Comando"
-                || pclave == "Inicio" || pclave == "Atrás" || pclave == "Actualiazar"
-                || pclave == "Inicio" || pclave == "Inicio" || pclave == "Inicio" ||
-                pclave == "Reproducir"|| pclave == "Play" || pclave == "Reproduce" ||
-                pclave == "Repetir" || pclave == "Reiniciar"){
+            || pclave == "Ayuda" || pclave == "Comandos" || pclave == "Comando"
+            || pclave == "Inicio" || pclave == "Atrás" || pclave == "Actualiazar"
+            || pclave == "Inicio" || pclave == "Inicio" || pclave == "Inicio" ||
+            pclave == "Reproducir"|| pclave == "Play" || pclave == "Reproduce" ||
+            pclave == "Repetir" || pclave == "Reiniciar"){
 
         }
         else{
@@ -127,6 +126,7 @@ class ContentAddActivity : AppCompatActivity() {
 
         }
     }
+
 
     private fun uploadFiletoStorage() {
         //paso 2: sube el archivo al almacenamiento de firebase
@@ -170,7 +170,7 @@ class ContentAddActivity : AppCompatActivity() {
         hashMap["pclave"] = "$pclave"
         hashMap["poesiaid"] = "$selectBookId"
         hashMap["url"] = "$uploadFileUrl"
-        hashMap["tipo"] = "0"
+        hashMap["tipo"] = "1"
         /**AQUI*/
         val ref = FirebaseDatabase.getInstance().getReference("Archivos").child(selectBookId)
         ref.child("$timestamp")
@@ -190,6 +190,75 @@ class ContentAddActivity : AppCompatActivity() {
             }
 
     }
+
+
+
+
+
+
+    fun verificarBase(identificar:String){
+        /**AQUI */
+        val ref = FirebaseDatabase.getInstance().getReference().child("Archivos").child(selectBookId)
+        val buscar = ref.orderByChild("pclave").equalTo(identificar)
+        buscar.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.exists()) {
+                    progressDialog.dismiss()
+                    Toast.makeText(this@AddPdfActivity,"Esta palabra clave ya está asignada a un Archivo",Toast.LENGTH_LONG).show()
+                }else{
+                    progressDialog.setMessage("Preparando subida de archivo")
+                    progressDialog.show()
+                    uploadFiletoStorage()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@AddPdfActivity,error.message,Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+    private var selectBookId = ""
+    private var selectBookTitle = ""
+    private fun filePickDialog() {
+
+        Log.d(TAG, "filePickDialog: mostrando el cuadro de diálogo del selector de categorías de pdf ")
+
+        val categoriesArray = arrayOfNulls<String>(categoryArrayList.size)
+        for (i in categoryArrayList.indices){
+            categoriesArray[i] = categoryArrayList[i].name
+        }
+        //alerta de dialogo
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Elegir Libro")
+            .setItems(categoriesArray){dialog, which ->
+                //obtener un elemento en el que se hace click
+                //manejar el elemento clic
+                selectBookId  = categoryArrayList[which].id
+                selectBookTitle = categoryArrayList[which].name
+
+                //iiddbook = selectBookId
+
+                //Establecer Libros en el textview
+                binding.categoryTv4.text = selectBookTitle
+
+                Log.d(TAG,"filePickDialog: Seleccionar libro ID: $selectBookId")
+                Log.d(TAG,"filePickDialog: Seleccionar libro Nombre: $selectBookTitle")
+
+
+            }
+            .show()
+    }
+
 
     private fun loadFileBook() {
         Log.d(TAG, "Cargando Archivos de Poesias")
@@ -216,86 +285,29 @@ class ContentAddActivity : AppCompatActivity() {
         })
     }
 
-    private var selectBookId = ""
-    private var selectBookTitle = ""
-    private fun filePickDialog() {
 
-        Log.d(TAG, "filePickDialog: mostrando el cuadro de diálogo del selector de categorías de pdf ")
-
-        val categoriesArray = arrayOfNulls<String>(categoryArrayList.size)
-        for (i in categoryArrayList.indices){
-            categoriesArray[i] = categoryArrayList[i].name
-        }
-        //alerta de dialogo
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Elegir Libro")
-            .setItems(categoriesArray){dialog, which ->
-                //obtener un elemento en el que se hace click
-                //manejar el elemento clic
-                selectBookId  = categoryArrayList[which].id
-                selectBookTitle = categoryArrayList[which].name
-
-                //iiddbook = selectBookId
-
-                //Establecer Libros en el textview
-                binding.categoryTv1.text = selectBookTitle
-
-                Log.d(TAG,"filePickDialog: Seleccionar libro ID: $selectBookId")
-                Log.d(TAG,"filePickDialog: Seleccionar libro Nombre: $selectBookTitle")
-
-
-            }
-            .show()
-    }
 
     private fun filePickIntent() {
         Log.d(TAG, "filePickIntent: Stark file pick intent")
 
         val intent = Intent()
-        intent.type = "video/*"
+        intent.type = "application/pdf"
         intent.action = Intent.ACTION_GET_CONTENT
         fileActivityResultlauncher.launch(intent)
     }
 
     val fileActivityResultlauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ActivityResultCallback<ActivityResult>{result ->
-                if (result.resultCode == RESULT_OK){
-                    Log.d(TAG, "Archivo seleccionado")
-                    fileUri = result.data!!.data
-                }else{
-                    Log.d(TAG,"Seleccion de archivo cancelado")
-                    Toast.makeText(this,"Cancelado", Toast.LENGTH_SHORT).show()
-                }
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback<ActivityResult>{ result ->
+            if (result.resultCode == RESULT_OK){
+                Log.d(TAG, "PDF seleccionado")
+                fileUri = result.data!!.data
+            }else{
+                Log.d(TAG,"Seleccion de PDF cancelado")
+                Toast.makeText(this,"Cancelado", Toast.LENGTH_SHORT).show()
             }
+        }
     )
-
-
-
-
-    fun verificarBase(identificar:String){
-        /**AQUI */
-        val ref = FirebaseDatabase.getInstance().getReference().child("Archivos").child(selectBookId)
-        val buscar = ref.orderByChild("pclave").equalTo(identificar)
-        buscar.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if (snapshot.exists()) {
-                    progressDialog.dismiss()
-                    Toast.makeText(this@ContentAddActivity,"Esta palabra clave ya está asignada a un Archivo",Toast.LENGTH_LONG).show()
-                }else{
-                    progressDialog.setMessage("Preparando subida de archivo")
-                    progressDialog.show()
-                    uploadFiletoStorage()
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@ContentAddActivity,error.message,Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -310,6 +322,7 @@ class ContentAddActivity : AppCompatActivity() {
         }
     }
 
+
     fun entradaDeVoz(){
         /*
         if(!SpeechRecognizer.isRecognitionAvailable(this)){
@@ -323,6 +336,7 @@ class ContentAddActivity : AppCompatActivity() {
         i.putExtra(RecognizerIntent.EXTRA_PROMPT, "Habla Porfavor")
         startActivityForResult(i, RQ_ESCUCHA)
     }
+
 
 
 

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.arboleda.tifloapp">
-
-    <!--Permite a las aplicaciones tener acceso a la red de internet-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--Permite que la aplicación grabe audio-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!--Permite a las aplicaciones acceder a información sobre redes-->
+    <!-- Permite a las aplicaciones tener acceso a la red de internet -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Permite que la aplicación grabe audio -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Permite a las aplicaciones acceder a información sobre redes -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -17,14 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TifloApp">
-        <activity android:name=".remove.RemoveUserActivity"></activity>
+        <activity android:name=".pdfs.AddPdfActivity"></activity>
+        <activity android:name=".pdfs.PdfViewActivity" />
+        <activity android:name=".edits.EditBook" />
+        <activity android:name=".remove.RemoveUserActivity" />
         <activity android:name=".menus.SimpleMenuActivity" />
         <activity
             android:name=".view.FinalActivity"
-            android:exported="true"
             android:configChanges="orientation|keyboard|layoutDirection|screenSize|screenLayout"
-            android:launchMode="singleTask"
-            />
+            android:exported="true"
+            android:launchMode="singleTask" />
         <activity android:name=".view.SecondUserListActivity" />
         <activity android:name=".view.FirstUserListActivity" />
         <activity android:name=".menulibros.SecondListAdminActivity" />

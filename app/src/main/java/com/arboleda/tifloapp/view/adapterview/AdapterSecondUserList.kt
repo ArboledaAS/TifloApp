@@ -10,6 +10,7 @@ import com.arboleda.tifloapp.MyApplication
 import com.arboleda.tifloapp.databinding.RowUser2ListBinding
 import com.arboleda.tifloapp.databinding.RowUserListBinding
 import com.arboleda.tifloapp.model.ModelUniversal
+import com.arboleda.tifloapp.pdfs.PdfViewActivity
 import com.arboleda.tifloapp.view.FinalActivity
 import com.arboleda.tifloapp.view.SecondUserListActivity
 
@@ -43,15 +44,24 @@ class AdapterSecondUserList :RecyclerView.Adapter<AdapterSecondUserList.HolderSe
         val pclave= model.pclave
         val poesiaid = model.poesiaid
         val url = model.url
+        val tipo = model.tipo
 
         holder.titleTv.text = pclave
 
         MyApplication.loadCategory2(poesiaid,holder.categoryTv)
 
         holder.itemView.setOnClickListener {
-            var intent = Intent(context, FinalActivity::class.java)
-            intent.putExtra("poesiaurl", url)
-            context.startActivity(intent)
+            if (tipo == "0"){
+                var intent = Intent(context, FinalActivity::class.java)
+                intent.putExtra("poesiaurl", url)
+                context.startActivity(intent)
+            }
+            else if (tipo == "1"){
+                var intent = Intent(context, PdfViewActivity::class.java)
+                intent.putExtra("pdfurl", url)
+                context.startActivity(intent)
+            }
+
         }
     }
 

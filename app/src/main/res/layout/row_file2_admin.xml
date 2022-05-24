@@ -2,10 +2,10 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="75dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="5dp"
-    app:cardCornerRadius="5dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="0dp"
     app:contentPadding="5dp">
 
@@ -51,8 +51,8 @@
 
         <ImageButton
             android:id="@+id/moreBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_baseline_menu_black"
             android:padding="5dp"

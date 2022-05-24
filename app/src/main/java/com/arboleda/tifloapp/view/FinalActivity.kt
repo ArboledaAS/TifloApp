@@ -21,14 +21,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
+import androidx.core.view.updateMarginsRelative
 import com.arboleda.tifloapp.LoginActivity
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.android.synthetic.main.activity_final.*
 import kotlinx.android.synthetic.main.activity_final.ReconocerBottom
@@ -66,16 +69,22 @@ class FinalActivity : AppCompatActivity() {
             if (!isFullScreen){
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+/**
+                val layoutParams = playerexo.layoutParams as RelativeLayout.LayoutParams
+                layoutParams.setMargins(0, 0, 0, 0)
+                playerexo.layoutParams = layoutParams
+*/
 
-                
-                ReconocerBottom.visibility = View.INVISIBLE
+                playInFullscreen(enable = false)
 
             }
             else{
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen_exit))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-                ReconocerBottom.visibility = View.VISIBLE
+
+
+                playInFullscreen(enable = true)
             }
 
             isFullScreen =! isFullScreen
@@ -273,4 +282,20 @@ class FinalActivity : AppCompatActivity() {
                     TextToSpeech.QUEUE_FLUSH,null)
         }
     }
+
+
+
+    private fun playInFullscreen(enable: Boolean){
+        if(enable){
+            playerexo.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            simpleExoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+
+        }else{
+            playerexo.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+            simpleExoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT
+
+        }
+    }
+
+
 }

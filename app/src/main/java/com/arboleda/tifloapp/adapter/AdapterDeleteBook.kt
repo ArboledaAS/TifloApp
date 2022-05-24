@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.arboleda.tifloapp.databinding.RowDeletebookBinding
+import com.arboleda.tifloapp.edits.EditBook
 import com.arboleda.tifloapp.menulibros.FileListAdminActivity
 import com.arboleda.tifloapp.menulibros.FilterBook
 import com.arboleda.tifloapp.model.ModelDeleteBook
@@ -51,7 +52,7 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
         //establecer datos
         holder.librosTV.text = name
 
-
+        val option = arrayOf( "Editar", "Eliminar")
 
 
         //manejar click eliminar libro
@@ -59,6 +60,22 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
             // confirmar antes de eliminar
             val builder = AlertDialog.Builder(context)
                 builder.setTitle("Eliminar")
+                    .setItems(option){dialog, position->
+
+                        if (position==0){
+                            val intent = Intent(context, EditBook::class.java)
+                            intent.putExtra("bookid", id)
+                            intent.putExtra("imageurl", img)
+                            context.startActivity(intent)
+                        }
+                        else if (position ==1){
+                            
+                            Toast.makeText(context,"Eliminando.......", Toast.LENGTH_SHORT).show()
+                            eliminarLibro(model,holder)
+                        }
+
+                    }.show()
+            /**
                     .setMessage("Estas seguro de eliminar este libro?")
                     .setPositiveButton("Confirmar"){a, d->
                         Toast.makeText(context,"Eliminando.......", Toast.LENGTH_SHORT).show()
@@ -66,7 +83,7 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
                     }
                     .setNegativeButton("Cancelar"){a, d->
                         a.dismiss()
-                    }.show()
+                    }.show()*/
         }
 
         //handle click, start pdf list admin activity, also pas pdf id, title

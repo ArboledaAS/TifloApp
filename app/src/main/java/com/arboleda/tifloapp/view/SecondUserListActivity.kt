@@ -12,6 +12,7 @@ import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.databinding.ActivitySecondUserListBinding
 import com.arboleda.tifloapp.model.ModelUniversal
+import com.arboleda.tifloapp.pdfs.PdfViewActivity
 import com.arboleda.tifloapp.view.adapterview.AdapterFirstUserList
 import com.arboleda.tifloapp.view.adapterview.AdapterSecondUserList
 import com.google.firebase.database.DataSnapshot
@@ -156,9 +157,18 @@ class SecondUserListActivity : AppCompatActivity() {
 
                                 if (model != null && model.pclave == identificar) {
 
-                                    val intent = Intent(this@SecondUserListActivity, FinalActivity::class.java)
-                                    intent.putExtra("poesiaurl", model.url)
-                                    startActivity(intent)
+                                    if (model.tipo == "0"){
+                                        val intent = Intent(this@SecondUserListActivity, FinalActivity::class.java)
+                                        intent.putExtra("poesiaurl", model.url)
+                                        startActivity(intent)
+                                    }
+                                    else if (model.tipo == "1"){
+                                        val intent = Intent(this@SecondUserListActivity, PdfViewActivity::class.java)
+                                        intent.putExtra("pdfurl", model.url)
+                                        startActivity(intent)
+                                    }
+
+
                                 }
                             }
 

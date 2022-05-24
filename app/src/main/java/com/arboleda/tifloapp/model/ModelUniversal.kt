@@ -10,6 +10,7 @@ class ModelUniversal {
     var info:String = ""
     var poesiaid:String = ""
     var url:String = ""
+    var tipo:String = ""
 
 
 
@@ -21,7 +22,7 @@ class ModelUniversal {
 
     //Parametros del constructor
     constructor(id: String, name: String, librosid: String, pclave: String,
-                img: String, info: String, poesiaid: String, url: String) {
+                img: String, info: String, poesiaid: String, url: String, tipo: String) {
         this.id = id
         this.name = name
         this.librosid = librosid
@@ -30,5 +31,6 @@ class ModelUniversal {
         this.info = info
         this.poesiaid = poesiaid
         this.url = url
+        this.tipo = tipo
     }
 }
