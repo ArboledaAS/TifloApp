@@ -60,6 +60,7 @@ class FinalActivity : AppCompatActivity() {
         playerView = findViewById<PlayerView>(R.id.playerexo)
         val progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
         val bt_fullscreen = findViewById<ImageView>(R.id.exo_fullscreen)
+        val bt_replay = findViewById<ImageView>(R.id.exo_replay)
 
 
 
@@ -89,6 +90,13 @@ class FinalActivity : AppCompatActivity() {
 
             isFullScreen =! isFullScreen
         }
+
+        bt_replay.setOnClickListener {
+            simpleExoPlayer.seekTo(0)
+            simpleExoPlayer.play()
+        }
+
+
 
         simpleExoPlayer= SimpleExoPlayer.Builder(this)
             .setSeekBackIncrementMs(5000)

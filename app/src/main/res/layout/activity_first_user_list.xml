@@ -86,6 +86,7 @@
 
             <ImageButton
                 android:id="@+id/descripcionbutton"
+                android:contentDescription="desplegar descripción del libro"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/white"

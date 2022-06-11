@@ -111,6 +111,11 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
                     .removeValue()
                     .addOnSuccessListener {
                         Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+                        /**----------------------------------------------------------------------------------------------------------*/
+
+
+
+                        /**----------------------------------------------------------------------------------------------------------*/
                     }
                     .addOnFailureListener {
                         Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()

@@ -1,15 +1,22 @@
 package com.arboleda.tifloapp.pdfs
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.util.Log
 import android.view.View
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.arboleda.tifloapp.R
-import com.arboleda.tifloapp.databinding.ActivityNewBinding
 import com.arboleda.tifloapp.databinding.ActivityPdfViewBinding
-import com.arboleda.tifloapp.pdfs.Constants.MAX_BYTES_PDF
+import com.github.barteksc.pdfviewer.link.DefaultLinkHandler
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
+import com.github.barteksc.pdfviewer.util.FitPolicy
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_pdf_view.*
+import java.util.*
+
 
 class PdfViewActivity : AppCompatActivity() {
 
@@ -36,7 +43,24 @@ class PdfViewActivity : AppCompatActivity() {
         }
 
 
+        /**
+
+                binding.webView.webChromeClient = object : WebChromeClient(){}
+
+        binding.webView.webViewClient = object : WebViewClient(){}
+
+        val settings = binding.webView.settings
+        settings.javaScriptEnabled = true
+        settings.supportZoom()
+
+
+        binding.webView.loadUrl("https://docs.google.com/gview?embedded=true&url=" + pdfurl)
+        println(pdfurl)
+
+*/
+
     }
+
 
     private fun cargarPdfUrl(pdfurl: String) {
 
@@ -45,8 +69,17 @@ class PdfViewActivity : AppCompatActivity() {
             .addOnSuccessListener {bytes->
                 Log.d(TAG,"cargarPdfUrl: Obteniendo pdf")
 
+                println("AQUI ESTAN LOS BYTES DEL PDF"+bytes)
+
                 binding.pdfView.fromBytes(bytes)
-                    .swipeHorizontal(false)
+                        .defaultPage(0)
+                        .pageFitPolicy(FitPolicy.BOTH)
+                        .spacing(10)
+                        .enableAnnotationRendering(true)
+                        .linkHandler( DefaultLinkHandler(binding.pdfView))
+
+
+
                     .onPageChange{page, pageCount->
 
                         val currentPage = page+1

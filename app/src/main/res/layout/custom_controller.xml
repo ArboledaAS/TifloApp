@@ -14,6 +14,7 @@
 
         <ImageView
             android:id="@+id/exo_rew"
+            android:contentDescription="Botón retroceder 5 segundos "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_replay"
@@ -21,6 +22,7 @@
 
         <ImageView
             android:id="@+id/exo_play"
+            android:contentDescription="Botón para reproducir el video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_round_play_arrow"
@@ -28,13 +30,23 @@
 
         <ImageView
             android:id="@+id/exo_pause"
+            android:contentDescription="Botón para pausar el video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_round_pause"
             />
 
         <ImageView
+            android:id="@+id/exo_replay"
+            android:contentDescription="Botón para repetir el video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_outline_stop_circle"
+            />
+
+        <ImageView
             android:id="@+id/exo_ffwd"
+            android:contentDescription="Botón adelantar 5 segundos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_forward"
@@ -86,6 +98,7 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_round_fullscreen"
             android:id="@+id/exo_fullscreen"
+                android:visibility="invisible"
             android:theme="@style/ClickableView"/>
 
         </LinearLayout>
