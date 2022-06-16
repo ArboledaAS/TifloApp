@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -25,6 +28,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 class AddPdfActivity : AppCompatActivity() {
 
@@ -48,11 +52,15 @@ class AddPdfActivity : AppCompatActivity() {
     //TAG
     private val TAG = "FILE_ADD_TAG"
 
+    private var textprogreso = 0.0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPdfBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loadFileBook()
+
 
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Espere Profavor")
@@ -133,7 +141,7 @@ class AddPdfActivity : AppCompatActivity() {
         Log.d(TAG,"uploadFiletoStorage: Subiendo al Almacenamiento...")
 
         //Mostrar dialogo del Progreso
-        progressDialog.setMessage("Subiendo Archivo")
+        progressDialog.setMessage("Subiendo Archivo: ${textprogreso}%")
         progressDialog.show()
 
         val timestamp = System.currentTimeMillis()
@@ -157,6 +165,10 @@ class AddPdfActivity : AppCompatActivity() {
                 progressDialog.dismiss()
                 Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
             }
+                .addOnProgressListener {
+                    textprogreso = (100.0 * it.bytesTransferred) / it.totalByteCount
+                    progressDialog.setMessage("Subiendo Archivo: ${textprogreso.roundToInt()}%")
+                }
     }
 
     private fun uploadFileInfoToDb(uploadFileUrl: String, timestamp:Long) {

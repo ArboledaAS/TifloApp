@@ -7,7 +7,8 @@
     android:id="@+id/menu_escritor"
     android:title="Escritor"
     android:icon="@drawable/ic_inclined_ballpoint"
-    app:showAsAction="always"/>
+    app:showAsAction="always"
+        android:contentDescription="Menu principal del escritor"/>
 
     <!--<item
         android:id="@+id/menu_lector"

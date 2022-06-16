@@ -18,6 +18,7 @@
         android:background="@color/white"
         android:hint="Reconocimiento"
         android:padding="10dp"
+        android:contentDescription="Campo de texto del reconocimiento de voz "
         />
 
     <androidx.cardview.widget.CardView
@@ -56,6 +57,17 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <TextView
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textStyle="bold|normal"
+                        android:layout_gravity="center"
+                        android:text="Libro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
                     <TextView
                         android:id="@+id/libroName2"
                         android:textColor="@color/black"
@@ -86,7 +98,7 @@
 
             <ImageButton
                 android:id="@+id/descripcionbutton"
-                android:contentDescription="desplegar descripción del libro"
+                android:contentDescription="Desplegar descripción del libro"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/white"
@@ -127,6 +139,7 @@
             android:textAllCaps="false"
             android:backgroundTint="#3c4ca8"
             app:cornerRadius="30dp"
+            android:contentDescription="Botón para iniciar el reconocimiento de voz "
             />
 
     </LinearLayout>

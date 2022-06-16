@@ -11,6 +11,7 @@ import com.arboleda.tifloapp.databinding.RowUser2ListBinding
 import com.arboleda.tifloapp.databinding.RowUserListBinding
 import com.arboleda.tifloapp.model.ModelUniversal
 import com.arboleda.tifloapp.pdfs.PdfViewActivity
+import com.arboleda.tifloapp.pdfs.TxtViewActivity
 import com.arboleda.tifloapp.view.FinalActivity
 import com.arboleda.tifloapp.view.SecondUserListActivity
 
@@ -59,6 +60,11 @@ class AdapterSecondUserList :RecyclerView.Adapter<AdapterSecondUserList.HolderSe
             else if (tipo == "1"){
                 var intent = Intent(context, PdfViewActivity::class.java)
                 intent.putExtra("pdfurl", url)
+                context.startActivity(intent)
+            }
+            else if (tipo == "2"){
+                var intent = Intent(context, TxtViewActivity::class.java)
+                intent.putExtra("txturl", url)
                 context.startActivity(intent)
             }
 

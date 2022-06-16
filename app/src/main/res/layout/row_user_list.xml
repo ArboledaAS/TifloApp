@@ -14,6 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
+            android:textStyle="bold|normal"
+            android:contentDescription="Poesía"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            />
+
         <!--Titulo-->
         <TextView
             android:id="@+id/titleTv"
@@ -22,12 +32,22 @@
             android:layout_height="wrap_content"
 
             android:maxLines="1"
-            android:text="Titulo del archivo"/>
+            android:text="Titulo de la poesia"/>
 
+
+        <!--descripcion tallback PALABRACLAVE-->
+
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
+            android:textStyle="bold|normal"
+            android:contentDescription="palabra clave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleTv"
+            android:layout_marginTop="8dp"/>
 
         <!--PALABRACLAVE-->
-
-
         <TextView
             android:id="@+id/palabraclaveTv"
             style="@style/TextAppearance.AppCompat.Body2"
@@ -38,6 +58,18 @@
             android:ellipsize="end"
             android:maxLines="4"
             android:text="Palabra clave"/>
+
+
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
+            android:textStyle="bold|normal"
+            android:contentDescription="Poesia del libro:"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+             />
 
         <TextView
             android:id="@+id/categoryTv"

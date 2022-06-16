@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TifloApp">
-        <activity android:name=".pdfs.AddPdfActivity"></activity>
+        <activity android:name=".pdfs.AddTxtActivity"></activity>
+        <activity android:name=".pdfs.TxtViewActivity" />
+        <activity android:name=".pdfs.AddPdfActivity" />
         <activity android:name=".pdfs.PdfViewActivity" />
         <activity android:name=".edits.EditBook" />
         <activity android:name=".remove.RemoveUserActivity" />

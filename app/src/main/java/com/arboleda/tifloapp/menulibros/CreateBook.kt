@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Toast
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.model.ModelUniversal
@@ -19,9 +20,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_create_book.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.math.round
+import kotlin.math.roundToInt
 
 class CreateBook : AppCompatActivity() {
     ///////////////////////
@@ -30,6 +34,8 @@ class CreateBook : AppCompatActivity() {
     var libroname:String = ""
     private var imageUri: Uri? = null
     private lateinit var progressDialog: ProgressDialog
+    private var textprogreso = 0.0
+
     //////////////////////
 
     private val RQ_ESCUCHA = 102
@@ -46,7 +52,8 @@ class CreateBook : AppCompatActivity() {
         guardarlibroButton.setOnClickListener {
             progressDialog = ProgressDialog(this)
             progressDialog.setTitle("Espere Porfavor")
-            progressDialog.setMessage("Creando Libro")
+            progressDialog.setMessage("Creando Libro: ${textprogreso}%")
+
             progressDialog.setCanceledOnTouchOutside(false)
 
             var palabraclave = edittextpalabraclave.text.toString().capitalize()
@@ -138,9 +145,9 @@ class CreateBook : AppCompatActivity() {
                         .addOnSuccessListener {taskSnapshot ->
                             progressDialog.dismiss()
                             Toast.makeText(this,"EL libro fue creado con exito",Toast.LENGTH_LONG).show()
-                            edittextnombrelibro.setText(null)
-                            edittextdescripcionlibro.setText(null)
-                            edittextpalabraclave.setText(null)
+                            edittextnombrelibro.text = null
+                            edittextdescripcionlibro.text = null
+                            edittextpalabraclave.text = null
                             imageUri = null
                             imageViewBook.setImageDrawable(null)
                             edittextnombrelibro.requestFocus()
@@ -152,6 +159,15 @@ class CreateBook : AppCompatActivity() {
                         }
 
             }
+        }.addOnFailureListener{e->
+
+            progressDialog.dismiss()
+            Toast.makeText(this,"Fallo la subida del archvio: ${e.message}",Toast.LENGTH_SHORT).show()
+        }
+                .addOnProgressListener {
+            textprogreso = (100.0 * it.bytesTransferred) / it.totalByteCount
+            progressDialog.setMessage("Creando Libro: ${textprogreso.roundToInt()}%")
+
         }
 
         //////////////////////
@@ -160,7 +176,7 @@ class CreateBook : AppCompatActivity() {
 
     fun verificarBase(identificar:String){
 
-        val ref = FirebaseDatabase.getInstance().getReference().child("libros")
+        val ref = FirebaseDatabase.getInstance().reference.child("libros")
         val buscar = ref.orderByChild("pclave").equalTo(identificar)
         buscar.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

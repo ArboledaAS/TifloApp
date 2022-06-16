@@ -92,7 +92,7 @@ class FirstUserListActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("$bookname")
             builder.setMessage("${bookinfo}")
-            builder.setPositiveButton("Cerrar",null)
+            builder.setPositiveButton("Cerrar descripción",null)
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }

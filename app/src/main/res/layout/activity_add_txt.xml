@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pdfs.AddPdfActivity">
-
+    tools:context=".pdfs.AddTxtActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Agregar PDF"
+        android:text="Agregar archivo TXT"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="30sp"
@@ -68,7 +67,7 @@
             android:layout_height="16dp" />
 
         <TextView
-            android:id="@+id/categoryTv4"
+            android:id="@+id/categoryTv5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/descriptionTil"
@@ -90,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/categoryTv1"
-            android:text="Buscar PDF"
+            android:text="Buscar archivo de texto"
             android:backgroundTint="#3c4ca8"
             android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_loupe"
@@ -119,7 +118,6 @@
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

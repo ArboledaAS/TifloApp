@@ -15,6 +15,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="10dp">
+
         <TextView
             android:id="@+id/editTextSpeech"
             android:layout_width="0dp"
@@ -26,6 +27,7 @@
             android:hint="Reconocimiento"
             android:padding="10dp"
             app:cornerRadius="30dp"
+            android:contentDescription="Campo de reconocimiento de texto"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,6 +38,7 @@
             app:fabCustomSize="50dp"
             app:tint="@color/white"
             android:src="@drawable/update_24"
+            android:contentDescription="Actualizar lista de libros"
             />
 
 
