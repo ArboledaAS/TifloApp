@@ -81,6 +81,9 @@ dependencies {
     //Libreria de PDfbarteksc
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
+    //Facebook Shimmer for Android
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

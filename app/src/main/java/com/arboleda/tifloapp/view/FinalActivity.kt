@@ -25,6 +25,7 @@ import androidx.core.view.updateMarginsRelative
 import com.arboleda.tifloapp.LoginActivity
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
+import com.arboleda.tifloapp.databinding.ActivityFinalBinding
 import com.arboleda.tifloapp.menulibros.DeleteBook
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.google.android.exoplayer2.C
@@ -40,6 +41,7 @@ import java.util.*
 
 
 class FinalActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFinalBinding
 
     var isFullScreen = false
     lateinit var simpleExoPlayer:SimpleExoPlayer
@@ -54,13 +56,18 @@ class FinalActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_final)
+        binding = ActivityFinalBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         playerView = findViewById<PlayerView>(R.id.playerexo)
         val progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
         val bt_fullscreen = findViewById<ImageView>(R.id.exo_fullscreen)
         val bt_replay = findViewById<ImageView>(R.id.exo_replay)
+
+        binding.buttomregresar.setOnClickListener {
+            onBackPressed()
+        }
 
 
 

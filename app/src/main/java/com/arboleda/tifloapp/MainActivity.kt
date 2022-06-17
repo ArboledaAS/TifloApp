@@ -12,8 +12,10 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arboleda.tifloapp.adapter.AdapterDeleteBook
 import com.arboleda.tifloapp.adapter.LibrosAdapter
@@ -234,7 +236,9 @@ class MainActivity : AppCompatActivity() {
                         val libro = libroSnapshot.getValue(LibroData::class.java)
                         libroList.add(libro!!)
                     }
+
                     recyclerLibros.adapter = mAdapter
+                    binding.viewLoading.isVisible = false
                 }
             }
 
