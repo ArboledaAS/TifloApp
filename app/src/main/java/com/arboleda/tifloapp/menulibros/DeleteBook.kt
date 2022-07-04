@@ -25,7 +25,7 @@ class DeleteBook : AppCompatActivity() {
 
     private lateinit var categoryArrayList: ArrayList<ModelDeleteBook>
     private lateinit var adapterDeleteBook: AdapterDeleteBook
-    private lateinit var  binding:ActivityDeleteBookBinding
+    private lateinit var  binding: ActivityDeleteBookBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
