@@ -45,6 +45,7 @@ class EditBook : AppCompatActivity() {
     private lateinit var categoryIdArrayList: ArrayList<String>
     private val RQ_ESCUCHA = 102
     private var textprogreso = 0.0
+    private var refpclave = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +96,7 @@ class EditBook : AppCompatActivity() {
                         binding.edittextnombrelibro.setText(title)
                         binding.edittextdescripcionlibro.setText(descripcion)
                         binding.edittextpalabraclave.setText(palabraclave)
+                        refpclave = palabraclave
                         Glide.with(this@EditBook).load("$imagen").into(imageViewBook)
 
 
@@ -328,10 +330,18 @@ class EditBook : AppCompatActivity() {
         buscar.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                if (snapshot.exists()) {
+                //////////////////////////////////////////////////////////////////////////asdasdjhbnsakjdnshbakd
+
+                if (binding.edittextpalabraclave.text.toString() == refpclave){
+                    UpdateBook()
+                }
+
+                else if (snapshot.exists()) {
                     progressDialog.dismiss()
                     Toast.makeText(this@EditBook,"Esta palabra clave ya está asignada a un libro",Toast.LENGTH_LONG).show()
-                }else{
+                }
+
+                else{
                     UpdateBook()
                 }
             }
