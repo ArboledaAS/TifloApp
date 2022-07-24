@@ -31,6 +31,35 @@
         android:layout_margin="5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        android:layout_below="@id/editTextSpeech"
+        tools:visibility="gone">
+
+
+        <LinearLayout
+            android:id="@+id/viewLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+
+            >
+            <include layout="@layout/view_loading_shimmer_2"/>
+            <include layout="@layout/view_loading_shimmer_2"/>
+            <include layout="@layout/view_loading_shimmer_2"/>
+            <include layout="@layout/view_loading_shimmer_2"/>
+            <include layout="@layout/view_loading_shimmer_2"/>
+            <include layout="@layout/view_loading_shimmer_2"/>
+
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <LinearLayout
         android:id="@+id/bottomLl"
         android:layout_width="match_parent"

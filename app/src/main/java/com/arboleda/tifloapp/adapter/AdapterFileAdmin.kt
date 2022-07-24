@@ -15,7 +15,12 @@ import com.arboleda.tifloapp.databinding.RowFileAdminBinding
 import com.arboleda.tifloapp.menulibros.FilterFileAdmin
 import com.arboleda.tifloapp.model.ModelFile
 import com.arboleda.tifloapp.menulibros.SecondListAdminActivity
+import com.arboleda.tifloapp.model.ModelUniversal
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import java.util.ArrayList
 
 class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, Filterable{
@@ -124,6 +129,58 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
             .removeValue()
             .addOnSuccessListener {
                 Toast.makeText(context,"Poesia eliminada", Toast.LENGTH_SHORT).show()
+
+                /**--------------------------------------------------------------------------------------------------------*/
+
+                /**  AQUI SE INICIA LA ELIMINACION DE TODOS LOS ARCHIVOS RELACIONADOS A LAS
+                 * POESIAS QUE SE QUIEREN ELIMINAR Y SU ARCHIVO RELACIONADO */
+
+                val ref3 = FirebaseDatabase.getInstance().getReference("Archivos").child(model.id)
+                ref3.orderByChild("poesiaid").equalTo(model.id)
+                        .addValueEventListener(object: ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+
+                                if(snapshot.exists()){
+                                    for (ds in snapshot.children){
+
+                                        val model2 = ds.getValue(ModelUniversal::class.java)
+
+                                        var refstorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(model2!!.url)
+                                        refstorageReference.delete()
+                                                .addOnSuccessListener {
+                                                    val ref3 = FirebaseDatabase.getInstance().getReference("Archivos").child(model.id)
+                                                    ref3.child(model2.id)
+                                                            .removeValue()
+                                                            .addOnSuccessListener {
+                                                                //Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                            .addOnFailureListener {
+                                                                Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                            }
+
+
+                                                }.addOnFailureListener {
+                                                    Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                }
+
+
+                                    }
+                                }
+
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+
+                            }
+
+                        })
+
+
+                /**--------------------------------------------------------------------------------------------------------*/
+
+
+
+
             }
             .addOnFailureListener {
                 Toast.makeText(context,"No se pudo eliminar la poesia de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()

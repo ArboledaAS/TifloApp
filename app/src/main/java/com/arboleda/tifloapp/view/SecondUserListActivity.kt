@@ -8,6 +8,7 @@ import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.arboleda.tifloapp.MainActivity
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.databinding.ActivitySecondUserListBinding
@@ -257,6 +258,7 @@ class SecondUserListActivity : AppCompatActivity() {
                         }
                         adapterFileAdmin = AdapterSecondUserList(this@SecondUserListActivity, fileArrayList)
                         binding.recycleruser2.adapter = adapterFileAdmin
+                        binding.viewLoading.isVisible = false
                     }
 
                     override fun onCancelled(error: DatabaseError) {

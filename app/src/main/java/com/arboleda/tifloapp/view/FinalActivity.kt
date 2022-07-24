@@ -71,17 +71,13 @@ class FinalActivity : AppCompatActivity() {
 
 
 
-
+/**
         bt_fullscreen.setOnClickListener {
 
             if (!isFullScreen){
                 bt_fullscreen.setImageDrawable(ContextCompat.getDrawable(applicationContext,R.drawable.ic_round_fullscreen))
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-/**
-                val layoutParams = playerexo.layoutParams as RelativeLayout.LayoutParams
-                layoutParams.setMargins(0, 0, 0, 0)
-                playerexo.layoutParams = layoutParams
-*/
+
 
                 playInFullscreen(enable = false)
 
@@ -96,7 +92,7 @@ class FinalActivity : AppCompatActivity() {
             }
 
             isFullScreen =! isFullScreen
-        }
+        }*/
 
         bt_replay.setOnClickListener {
             simpleExoPlayer.seekTo(0)

@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.content.Context
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_first_user_list.*
 import kotlinx.android.synthetic.main.activity_main.editTextSpeech
 
@@ -278,6 +279,7 @@ class FirstUserListActivity : AppCompatActivity() {
                     }
                     adapterFileAdmin = AdapterFirstUserList(this@FirstUserListActivity, fileArrayList)
                     binding.recycleruser1.adapter = adapterFileAdmin
+                    binding.viewLoading.isVisible = false
                 }
 
                 override fun onCancelled(error: DatabaseError) {

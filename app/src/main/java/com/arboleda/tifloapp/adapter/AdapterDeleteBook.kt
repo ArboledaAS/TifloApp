@@ -14,7 +14,12 @@ import com.arboleda.tifloapp.edits.EditBook
 import com.arboleda.tifloapp.menulibros.FileListAdminActivity
 import com.arboleda.tifloapp.menulibros.FilterBook
 import com.arboleda.tifloapp.model.ModelDeleteBook
+import com.arboleda.tifloapp.model.ModelUniversal
+import com.arboleda.tifloapp.view.SecondUserListActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_master_menu.view.*
 
@@ -59,7 +64,7 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
         holder.deleteBtn.setOnClickListener {
             // confirmar antes de eliminar
             val builder = AlertDialog.Builder(context)
-                builder.setTitle("Eliminar")
+                builder.setTitle("Seleccione una opción")
                     .setItems(option){dialog, position->
 
                         if (position==0){
@@ -110,12 +115,92 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
                 ref.child(id)
                     .removeValue()
                     .addOnSuccessListener {
+                        //Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
+                        /**----------------------------------------------------------------------------------------------------------*/
+                        val ref = FirebaseDatabase.getInstance().getReference("poesia")
+                        ref.orderByChild("librosid").equalTo(id)
+                                .addValueEventListener(object: ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                                        /**  AQUI SE INICIA LA ELIMINACION DE TODOS LAS POESIAS RELACIONADA AL LIBRO
+                                         * QUE SE QUIERE ELIMINAR  */
+                                        if(snapshot.exists())
+                                        {
+                                            for (ds in snapshot.children){
+
+                                                val model = ds.getValue(ModelUniversal::class.java)
+
+
+                                                val ref2 = FirebaseDatabase.getInstance().getReference("poesia")
+                                                ref2.child(model!!.id)
+                                                        .removeValue()
+                                                        .addOnSuccessListener {
+                                                            //Toast.makeText(context,"Poesia ${model.name} eliminada", Toast.LENGTH_SHORT).show()
+
+                                                            /**  AQUI SE INICIA LA ELIMINACION DE TODOS LOS ARCHIVOS RELACIONADOS A LAS
+                                                             * POESIAS QUE SE QUIEREN ELIMINAR Y SU ARCHIVO RELACIONADO */
+
+                                                            val ref3 = FirebaseDatabase.getInstance().getReference("Archivos").child(model.id)
+                                                            ref3.orderByChild("poesiaid").equalTo(model.id)
+                                                                    .addValueEventListener(object: ValueEventListener{
+                                                                        override fun onDataChange(snapshot: DataSnapshot) {
+
+                                                                            if(snapshot.exists()){
+                                                                                for (ds in snapshot.children){
+
+                                                                                    val model2 = ds.getValue(ModelUniversal::class.java)
+
+                                                                                    var refstorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(model2!!.url)
+                                                                                    refstorageReference.delete()
+                                                                                            .addOnSuccessListener {
+                                                                                                val ref3 = FirebaseDatabase.getInstance().getReference("Archivos").child(model.id)
+                                                                                                ref3.child(model2.id)
+                                                                                                        .removeValue()
+                                                                                                        .addOnSuccessListener {
+                                                                                                            //Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
+                                                                                                        }
+                                                                                                        .addOnFailureListener {
+                                                                                                            Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                                                                        }
+
+
+                                                                                            }.addOnFailureListener {
+                                                                                                Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                                                            }
+
+
+                                                                                }
+                                                                            }
+
+                                                                        }
+
+                                                                        override fun onCancelled(error: DatabaseError) {
+
+                                                                        }
+
+                                                                    })
+
+
+                                                        }
+                                                        .addOnFailureListener {
+                                                            Toast.makeText(context,"No se pudo eliminar la poesia de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                        }
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
+
+                                })
+
+
+                        /**----------------------------------------------------------------------------------------------------------*/
                         Toast.makeText(context,"Libro eliminado", Toast.LENGTH_SHORT).show()
-                        /**----------------------------------------------------------------------------------------------------------*/
-
-
-
-                        /**----------------------------------------------------------------------------------------------------------*/
                     }
                     .addOnFailureListener {
                         Toast.makeText(context,"No se pudo eliminar el libro de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
