@@ -165,7 +165,7 @@ class AdapterDeleteBook :RecyclerView.Adapter<AdapterDeleteBook.HolderDeleteBook
 
 
                                                                                             }.addOnFailureListener {
-                                                                                                Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                                                                //Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
                                                                                             }
 
 

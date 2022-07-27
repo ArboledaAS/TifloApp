@@ -14,7 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.arboleda.tifloapp.R
 import com.arboleda.tifloapp.databinding.ActivityPoesiaAddBinding
 import com.arboleda.tifloapp.model.ModelDeleteBook
+import com.arboleda.tifloapp.model.ModelFile
 import com.arboleda.tifloapp.model.ModelUniversal
+import com.arboleda.tifloapp.pdfs.PdfViewActivity
+import com.arboleda.tifloapp.pdfs.TxtViewActivity
+import com.arboleda.tifloapp.view.FinalActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -259,7 +263,7 @@ class PoesiaAddActivity : AppCompatActivity() {
         .show()
     }
 
-
+/**
     fun verificarBase(identificar:String){
 
         val ref = FirebaseDatabase.getInstance().getReference().child("poesia")
@@ -278,6 +282,48 @@ class PoesiaAddActivity : AppCompatActivity() {
             }
         })
     }
+*/
+
+    fun verificarBase(identificar:String){
+
+
+        val ref = FirebaseDatabase.getInstance().getReference().child("poesia")
+        ref.orderByChild("librosid").equalTo(selectBookId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    var myarray = arrayListOf<String>()
+                    myarray.clear()
+
+                    if (snapshot.exists()) {
+
+                        for (dss in snapshot.children){
+
+                            val modelo = dss.getValue(ModelUniversal::class.java)
+
+                            myarray.add(modelo!!.pclave)
+                        }
+
+                        if (identificar in myarray){
+                            Toast.makeText(this@PoesiaAddActivity,"Esta palabra clave ya está asignada a una poesia",Toast.LENGTH_LONG).show()
+                        }else{
+                            uploadFileInfoToDb()
+                        }
+
+
+
+                    }else{
+                        uploadFileInfoToDb()
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@PoesiaAddActivity,error.message,Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+
+
 
 
 

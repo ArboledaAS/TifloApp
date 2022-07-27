@@ -142,8 +142,11 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
 
                                 if(snapshot.exists()){
                                     for (ds in snapshot.children){
+                                        println("AQUI ESTA EL PRINT DEL DS: $ds")
+                                        println("AQUI ESTA EL PRINT DEL CHILDREN: ${snapshot.children}")
 
                                         val model2 = ds.getValue(ModelUniversal::class.java)
+                                        println("AQUI ESTA EL PRINT: ${model2!!.url}")
 
                                         var refstorageReference = FirebaseStorage.getInstance().getReferenceFromUrl(model2!!.url)
                                         refstorageReference.delete()
@@ -155,12 +158,12 @@ class AdapterFileAdmin :RecyclerView.Adapter<AdapterFileAdmin.HolderFileAdmin>, 
                                                                 //Toast.makeText(context,"Archivo eliminado", Toast.LENGTH_SHORT).show()
                                                             }
                                                             .addOnFailureListener {
-                                                                Toast.makeText(context,"No se pudo eliminar el Archivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                                Toast.makeText(context,"No se pudo eliminar la informacion de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
                                                             }
 
 
                                                 }.addOnFailureListener {
-                                                    Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
+                                                    //Toast.makeText(context,"No se pudo eliminar el Archvivo de la base de datos: ${it.message}", Toast.LENGTH_SHORT).show()
                                                 }
 
 
