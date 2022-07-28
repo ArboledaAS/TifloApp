@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 import android.content.Context
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_first_user_list.*
 import kotlinx.android.synthetic.main.activity_main.editTextSpeech
@@ -287,4 +289,32 @@ class FirstUserListActivity : AppCompatActivity() {
                 }
             })
     }
+
+
+    ////////////////inicializa el menu escritor y lector
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu3, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
+            R.id.volver -> {
+                if (textToSpeech.isSpeaking){
+                    textToSpeech.stop()
+                }
+                onBackPressed()
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    ////////////////inicializa el menu escritor y lector*******
+
+
+
+
 }

@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.arboleda.tifloapp.MainActivity
@@ -266,5 +268,29 @@ class SecondUserListActivity : AppCompatActivity() {
                     }
                 })
     }
+
+    ////////////////inicializa el menu escritor y lector
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu3, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
+            R.id.volver -> {
+                if (textToSpeech.isSpeaking){
+                    textToSpeech.stop()
+                }
+                onBackPressed()
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    ////////////////inicializa el menu escritor y lector*******
+
 
 }

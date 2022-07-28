@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray03"
-    tools:context=".menus.MasterMenu">
+    tools:context=".menus.MasterMenu"
+    android:id="@+id/panntalla_MasterMenu">
 
 
     <RelativeLayout

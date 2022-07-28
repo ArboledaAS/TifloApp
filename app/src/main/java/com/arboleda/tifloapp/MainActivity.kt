@@ -264,6 +264,9 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             //R.id.menu_escritor -> startActivity(Intent(this,CreateBook::class.java))
             R.id.menu_escritor ->{
+                if (textToSpeech.isSpeaking){
+                    textToSpeech.stop()
+                }
                 sesion()
 
             }

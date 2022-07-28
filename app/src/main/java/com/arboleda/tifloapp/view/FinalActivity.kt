@@ -37,6 +37,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 import kotlinx.android.synthetic.main.activity_final.*
 import kotlinx.android.synthetic.main.activity_final.ReconocerBottom
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_controller.*
 import java.util.*
 
 
@@ -67,6 +68,10 @@ class FinalActivity : AppCompatActivity() {
 
         binding.buttomregresar.setOnClickListener {
             onBackPressed()
+            if (textToSpeech.isSpeaking){
+                textToSpeech.stop()
+            }
+
         }
 
 
@@ -257,6 +262,15 @@ class FinalActivity : AppCompatActivity() {
 
     private fun tomaDeOrdenes(decision:String) {
         if (decision == "Reproducir"|| decision == "Play" || decision == "Reproduce"){
+            simpleExoPlayer.play()
+        }
+        else if (decision == "Adelantar" || decision == "Adelante"){
+            simpleExoPlayer.seekForward()
+            simpleExoPlayer.play()
+
+        }
+        else if (decision == "Volver" || decision == "Atrasar"){
+            simpleExoPlayer.seekBack()
             simpleExoPlayer.play()
         }
         else if (decision == "Repetir" || decision == "Reiniciar"){
